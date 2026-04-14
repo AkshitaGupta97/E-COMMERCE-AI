@@ -84,3 +84,8 @@ body {
   box-shadow: 0 8px 25px rgba(37, 99, 235, 0.5);
 }
 
+.App {
+  min-height: 100vh;
+  display: flex;
+  padding-inline: 4px;
+}

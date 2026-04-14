@@ -1,74 +1,96 @@
 import { useState } from "react";
-import neurologo from "../assets/neurologo.png";
-import { Link } from "react-router-dom";
+import { Menu, X, ShoppingCart, Heart, User } from "lucide-react";
+import neurocartlogo from "../assets/neurocartlogo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="backdrop-blur-md font-medium md:font-semibold bg-white/10 border-b border-white/20 text-white px-6 py-3 flex items-center justify-between fixed top-0 w-full z-50 shadow-lg">
+    <nav className="bg-black text-white font-semibold fixed w-full z-50 shadow-lg">
       
-      {/* Logo */}
-      <Link to="/" className="flex items-center gap-2">
-        <img src={neurologo} alt="logo" className="h-20 w-auto" />
-      </Link>
-
-      {/* Desktop Menu */}
-      <div className="hidden md:flex items-center gap-6 ">
-        <Link to="/" className="hover:text-yellow-400 transition">Home</Link>
-        <Link to="/shop" className="hover:text-yellow-400 transition">Shop</Link>
+      {/* TOP BAR */}
+      <div className="text-center text-sm py-1 bg-gray-900 text-gray-300">
+        Free Shipping on Orders Above ₹499 🚚
       </div>
 
-      {/* Search Bar */}
-      <div className="hidden md:flex items-center bg-white/20 backdrop-blur-md px-3 py-1 rounded-full w-1/3">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className="bg-transparent outline-none text-sm w-full placeholder-gray-300"
-        />
-      </div>
+      {/* MAIN NAV */}
+      <div className="flex items-center justify-between px-4 md:px-10 py-3">
 
-      {/* Right Section */}
-      <div className="hidden md:flex items-center gap-6">
-        
-        {/* Cart */}
-        <Link to="/cart" className="relative hover:text-yellow-400 transition">
-          🛒
-          <span className="absolute -top-2 -right-3 bg-yellow-400 text-black text-xs px-1.5 rounded-full">
-            2
-          </span>
-        </Link>
+        {/* LEFT - LOGO */}
+        <div className="text-2xl font-bold ">
+          <img src={neurocartlogo} alt="logo" className="h-20 w-36" />
+        </div>
 
-        {/* Login */}
-        <Link to="/login" className="hover:text-yellow-400 transition">
-          Login
-        </Link>
-      </div>
+        {/* CENTER - SEARCH (Hidden on mobile) */}
+        <div className="hidden md:block w-1/2">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="w-full px-4 py-2 rounded-full text-white bg-gray-800 placeholder:text-gray-500 focus:outline-none"
+          />
+        </div>
 
-      {/* Mobile Button */}
-      <button
-        className="md:hidden text-2xl"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
-        ☰
-      </button>
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="absolute top-16 left-0 w-full backdrop-blur-md bg-black/80 flex flex-col items-center gap-4 py-6 md:hidden">
+        {/* RIGHT - ICONS */}
+        <div className="hidden md:flex items-center gap-6 text-xl">
+          <User className="cursor-pointer hover:text-yellow-400" />
+          <Heart className="cursor-pointer hover:text-yellow-400" />
           
+          <div className="relative cursor-pointer">
+            <ShoppingCart className="hover:text-yellow-400" />
+            <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">
+              2
+            </span>
+          </div>
+        </div>
+
+        {/* MOBILE MENU BUTTON */}
+        <div className="md:hidden cursor-pointer">
+          {menuOpen ? (
+            <X size={28} onClick={() => setMenuOpen(false)} />
+          ) : (
+            <Menu size={28} onClick={() => setMenuOpen(true)} />
+          )}
+        </div>
+      </div>
+
+      {/* MOBILE MENU */}
+      {menuOpen && (
+        <div className="md:hidden bg-gray-700 pt-1.5 px-6 pb-4 space-y-4">
+
+          {/* SEARCH */}
           <input
             type="text"
             placeholder="Search..."
-            className="px-3 py-2 rounded-full w-4/5 text-black"
+            className="w-full px-4 py-2 rounded-full text-white bg-gray-800 placeholder:text-gray-500"
           />
 
-          <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/shop" onClick={() => setMenuOpen(false)}>Shop</Link>
-          <Link to="/cart" onClick={() => setMenuOpen(false)}>Cart</Link>
-          <Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
+          {/* LINKS */}
+          <div className="flex flex-col gap-4 mt-1.5 cursor-pointer">
+            <span>Home</span>
+            <span>Shop</span>
+            <span>Deals</span>
+            <span>New Arrivals</span>
+          </div>
+
+          {/* ICONS */}
+          <div className="flex gap-6 text-xl cursor-pointer pt-3 border-t border-gray-700">
+            <User className="hover:text-amber-300" />
+            <Heart className="hover:text-amber-300" />
+            <ShoppingCart className="hover:text-amber-300" />
+          </div>
         </div>
       )}
+
+      {/* CATEGORY STRIP */}
+      <div className="hidden md:flex gap-8 cursor-pointer px-10 py-2 bg-gray-900 text-sm overflow-x-auto">
+        <span className="hover:text-yellow-400 cursor-pointer">Electronics</span>
+        <span className="hover:text-yellow-400 cursor-pointer">Fashion</span>
+        <span className="hover:text-yellow-400 cursor-pointer">Home</span>
+        <span className="hover:text-yellow-400 cursor-pointer">Beauty</span>
+        <span className="hover:text-yellow-400 cursor-pointer">Sports</span>
+        <span className="hover:text-yellow-400 cursor-pointer">Grocery</span>
+      </div>
+
     </nav>
   );
 };
