@@ -1,9 +1,22 @@
 import { useState } from "react";
 import { Menu, X, ShoppingCart, Heart, User } from "lucide-react";
 import neurocartlogo from "../assets/neurocartlogo.png";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const {token, setToken, userData} = useContext(AppContext);
+
+  const logout = () => {
+    setToken(false);
+    localStorage.removeItem("token");
+    navigate("/");  
+  }
 
   return (
     <nav className="bg-black text-white font-semibold fixed w-full z-50 shadow-lg">
