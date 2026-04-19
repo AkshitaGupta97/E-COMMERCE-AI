@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 
 // routes
 app.use('/api/user', userRouter);
+app.use('/api/cart', cartRouter);
 
 // START SERVER AFTER DB CONNECTS
 const startServer = async () => {
