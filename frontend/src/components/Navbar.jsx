@@ -10,17 +10,19 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const {token, setToken, userData} = useContext(AppContext);
+  const { token, setToken, userData } = useContext(AppContext);
+  const [showDropdown, setShowDropDown] = useState(false);
 
   const logout = () => {
     setToken(false);
     localStorage.removeItem("token");
-    navigate("/");  
+    navigate("/");
+    setShowDropDown(false);
   }
 
   return (
     <nav className="bg-black text-white font-semibold fixed w-full z-50 shadow-lg">
-      
+
       {/* TOP BAR */}
       <div className="text-center text-sm py-1 bg-gray-900 text-gray-300">
         Free Shipping on Orders Above ₹499 🚚
@@ -45,9 +47,58 @@ const Navbar = () => {
 
         {/* RIGHT - ICONS */}
         <div className="hidden md:flex items-center gap-6 text-xl">
-          <User className="cursor-pointer hover:text-yellow-400" />
+          {
+            userData?.image ? (
+              <img src={userData.image} alt="profile"
+                className="w-10 h-10 rounded-full cursor-pointer"
+              />
+            ) : (
+              <div onClick={() => setShowDropDown(prev => !prev)}>
+                <User className="cursor-pointer hover:text-yellow-400" />
+              </div>
+            )
+          }
+          {/* Arrow */}
+          <span
+            onClick={() => setShowDropDown(prev => !prev)}
+            className="material-symbols-outlined text-emerald-100 cursor-pointer"
+          >
+            arrow_drop_down
+          </span>
+
+          {/* dropdown */}
+          {
+            showDropdown && (
+              <div className="absolute right-10 top-24 bg-stone-900 text-shadow-white rounded shadow-lg w-48 p-4 flex flex-col gap-3 z-20">
+                <p
+                  onClick={() => {
+                    navigate('/my-profile');
+                    setShowDropDown(false);
+                  }}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-amber-400">
+                    switch_account
+                  </span>
+                  <span className="font-semibold text-sm hover:underline">My Profile</span>
+                </p>
+
+                <p
+                  onClick={logout}
+                  className="flex items-center gap-2 hover:text-red-300 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-amber-400">
+                    logout
+                  </span>
+                  <span className="font-semibold text-sm hover:underline">Logout</span>
+                </p>
+
+              </div>
+            )
+          }
+
           <Heart className="cursor-pointer hover:text-yellow-400" />
-          
+
           <div className="relative cursor-pointer">
             <ShoppingCart className="hover:text-yellow-400" />
             <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">
@@ -84,10 +135,53 @@ const Navbar = () => {
             <span>Deals</span>
             <span>New Arrivals</span>
           </div>
-
+          <hr className="text-gray-300" />
           {/* ICONS */}
           <div className="flex gap-6 text-xl cursor-pointer pt-3 border-t border-gray-700">
-            <User className="hover:text-amber-300" />
+            {
+              userData?.image ? (
+                <img src={userData.image} alt="profile"
+                  className="w-10 h-10 rounded-full cursor-pointer"
+                  onClick={() => setShowDropDown(prev => !prev)}
+                />
+              ) : (
+                <div onClick={() => setShowDropDown(prev => !prev)}>
+                  <User className="cursor-pointer hover:text-yellow-400" />
+                </div>
+              )
+            }
+           
+            {/* dropdown */}
+            {
+              showDropdown && (
+                <div className="absolute right-2 bottom-10 bg-stone-900 text-shadow-white rounded shadow-lg w-48 p-4 flex flex-col gap-3 z-20">
+                  <p
+                    onClick={() => {
+                      navigate('/my-profile');
+                      setShowDropDown(false);
+                    }}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-amber-400">
+                      switch_account
+                    </span>
+                    <span className="font-semibold text-sm hover:underline">My Profile</span>
+                  </p>
+
+                  <p
+                    onClick={logout}
+                    className="flex items-center gap-2 hover:text-red-300 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-amber-400">
+                      logout
+                    </span>
+                    <span className="font-semibold text-sm hover:underline">Logout</span>
+                  </p>
+
+                </div>
+              )
+            }
+
             <Heart className="hover:text-amber-300" />
             <ShoppingCart className="hover:text-amber-300" />
           </div>

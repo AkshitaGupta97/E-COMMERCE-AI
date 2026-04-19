@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createContext } from "react";
 import axios from "axios";
-import {toast} from "react-toastify";
+//import {toast} from "react-toastify";
 import { useEffect } from "react";
 
 export const AppContext = createContext();
@@ -25,10 +25,7 @@ const AppContextProvider = (props) => {
             );
 
             if(data.success){
-                setUserData({
-                    ...data.user,
-                    address: data.user.address || {line1: "", line2: ""}
-                });
+                setUserData({ ...data.user});
             }
 
         } catch (error) {
