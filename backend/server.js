@@ -4,7 +4,7 @@ import cors from "cors"
 import 'dotenv/config';
 import connectDB from "./config/mongodb.js";
 import userRouter from "./routes/userRoute.js";
-
+import cartRouter from "./routes/cartRoute.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -39,6 +39,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-
-
