@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, X, ShoppingCart, Heart, User } from "lucide-react";
 import neurocartlogo from "../assets/neurocartlogo.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 
@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const { token, setToken, userData } = useContext(AppContext);
+  const { token, setToken, userData, getTotalCartItems } = useContext(AppContext);
   const [showDropdown, setShowDropDown] = useState(false);
 
   const logout = () => {
@@ -32,9 +32,9 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-4 md:px-10 py-3">
 
         {/* LEFT - LOGO */}
-        <div className="text-2xl font-bold ">
+        <Link to="/">
           <img src={neurocartlogo} alt="logo" className="h-20 w-36" />
-        </div>
+        </Link>
 
         {/* CENTER - SEARCH (Hidden on mobile) */}
         <div className="hidden md:block w-1/2">
@@ -100,11 +100,12 @@ const Navbar = () => {
           <Heart className="cursor-pointer hover:text-yellow-400" />
 
           <div className="relative cursor-pointer">
-            <ShoppingCart className="hover:text-yellow-400" />
+            <Link to="/cart"><ShoppingCart className="hover:text-yellow-400" /></Link>
             <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">
-              2
+              {getTotalCartItems() || 0}
             </span>
           </div>
+
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -150,7 +151,7 @@ const Navbar = () => {
                 </div>
               )
             }
-           
+
             {/* dropdown */}
             {
               showDropdown && (
@@ -183,7 +184,12 @@ const Navbar = () => {
             }
 
             <Heart className="hover:text-amber-300" />
-            <ShoppingCart className="hover:text-amber-300" />
+            <div className="relative cursor-pointer">
+              <Link to="/cart"><ShoppingCart className="hover:text-yellow-400" /></Link>
+              <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">
+                {getTotalCartItems() || 0}
+              </span>
+            </div>
           </div>
         </div>
       )}
