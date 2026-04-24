@@ -5,7 +5,7 @@ import { AppContext } from "../context/AppContext";
 
 export default function ProductCard({ product }) {
 
-    const { cartData, setCartData, addToCart, removeFromCart } = useContext(AppContext);
+    const { cartData, setCartData, addToWishlist, addToCart, removeFromCart, wishlistData } = useContext(AppContext);
 
     const [added, setAdded] = useState(false);
 
@@ -29,8 +29,11 @@ export default function ProductCard({ product }) {
                     }
                 </button>
 
-                <button>
-                    <Heart size={18} className="text-gray-200 cursor-pointer hover:text-red-500 transition" />
+                <button onClick={() => addToWishlist(product.id)}>
+                    <Heart 
+                        size={18} 
+                        className={`cursor-pointer transition ${wishlistData[product.id] ? 'text-red-500 fill-red-500' : 'text-gray-200 hover:text-red-500'}`} 
+                    />
                 </button>
 
                 <button>

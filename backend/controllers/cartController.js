@@ -58,3 +58,36 @@ export const getCart = async(req, res) => {
         res.json({success:false, message:"Error"});
     }
 }
+
+// add to wishList
+export const addToWishList = async(req, res) => {
+    try {
+        const userId = req.userId;
+        const itemId = req.body.itemId;
+        let userData = await userModel.findById(userId);
+        let wishList = await userData.wishList || {};
+
+        // Add item to wishlist
+        wishList[itemId] = true;
+
+        await userModel.findByIdAndUpdate(userId, { wishList });
+        res.json({ success: true, message: "Added to Wishlist" });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "Error" });
+    }
+}
+
+// get wishlist data 
+export const getWishList = async(req, res) => {
+    try {
+        let userId = req.userId;
+        let userData = await userModel.findById(userId);
+        let wishList = await userData.wishList;
+        res.json({success:true, wishList});
+    } catch (error) {
+        console.log(error);
+        res.json({success:false, message:"Error"});
+    }   
+}

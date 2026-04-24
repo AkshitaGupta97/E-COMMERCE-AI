@@ -14,6 +14,7 @@ const AppContextProvider = (props) => {
     const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : false);
     const [userData, setUserData] = useState(false);
     const [cartData, setCartData] = useState({});
+    const [wishlistData, setWishlistData] = useState({});
 
     // get user data
     const loadUserProfileData = async() => {
@@ -74,6 +75,38 @@ const AppContextProvider = (props) => {
         setCartData(response.data.cartData)
     }
 
+    const addToWishlist = async(itemId) => {
+        // Toggle wishlist locally
+        setWishlistData((prev) => {
+            const newWishlist = { ...prev };
+            if (newWishlist[itemId]) {
+                delete newWishlist[itemId];
+            } else {
+                newWishlist[itemId] = true;
+            }
+            return newWishlist;
+        });
+
+        if(token){
+            await axios.post(backendUrl + "/api/cart/add-to-wishlist",
+                { itemId },
+                {
+                    headers: { Authorization: `Bearer ${token}`}
+                }
+            );
+        }
+    }
+
+    const getWishlistData = async(token) => {
+        const response = await axios.post(backendUrl+'/api/cart/get-wishlist',  {},
+            {
+                headers: { Authorization: `Bearer ${token}`}    
+            }
+        );
+        setWishlistData(response.data.wishList || {});
+        return response.data.wishList;
+    }
+
     const getTotalCartItems = () => {
         let totalItems = 0;
         for(let key in cartData){
@@ -86,6 +119,10 @@ const AppContextProvider = (props) => {
             }
         }
         return totalItems;
+    }
+
+    const getTotalWishlistItems = () => {
+        return Object.keys(wishlistData).length;
     }
 
     useEffect(() => {
@@ -102,6 +139,7 @@ const AppContextProvider = (props) => {
 
             if(localStorage.getItem("token")){
                 await loadCartData(token);
+                await getWishlistData(token);
             }
         }
         loadData();
@@ -113,6 +151,7 @@ const AppContextProvider = (props) => {
         userData, setUserData, loadUserProfileData,
         cartData, setCartData, addToCart, removeFromCart,
         getTotalCartItems,
+        wishlistData, addToWishlist, getWishlistData, getTotalWishlistItems
         
     }
 

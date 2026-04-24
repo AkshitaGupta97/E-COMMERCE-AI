@@ -1,7 +1,11 @@
 
+
 const Shop = () => {
   return (
-    <div>Shop</div>
+    <div className="mt-48 px-8">
+       
+
+    </div>
   )
 }
 
