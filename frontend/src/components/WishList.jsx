@@ -1,23 +1,47 @@
-import { Link } from "react-router-dom"
+import { useContext, useEffect } from "react"
+import { AppContext } from "../context/AppContext"
+import { productData } from "../assets/productdata";
+import { Link } from "react-router-dom";
 
 const WishList = () => {
-  return (
-    <Link to="/product/1" className="min-h-[calc(100vh-80px)] mt-28 px-4">
-      <h1 className="text-3xl font-bold text-center mt-10 text-yellow-300">My Wishlist</h1>
+  const { wishlistData, getWishlistData, token } = useContext(AppContext);
+  const itemIds = Object.keys(wishlistData || {});
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8 px-4">
-        {/* Example Wishlist Product Card */}
-        <div className="bg-gray-900 p-4 rounded-2xl shadow-lg hover:shadow-yellow-400/20 transition">
-          <img src="https://th.bing.com/th/id/OIP.--Bhv05grQ8eBnssITOZqgHaIt?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Wishlist Product" className="rounded-xl mb-3" />
-          <h3 className="text-white font-semibold">Wishlist Product Name</h3>
-          <p className="text-yellow-400 font-bold">₹9,999</p>
-          <p className="text-gray-400 text-sm mt-1">This is a product you've added to your wishlist.</p>
-        </div>
-        {/* Repeat similar wishlist product cards as needed */}
+  useEffect(() => {
+    if (token) {
+      getWishlistData(token);
+    }
+  }, [token, getWishlistData]);
+
+  return (
+    <div className="min-h-[calc(100vh-80px)] mt-28 px-4">
+      <h1 className="text-3xl font-bold text-center mt-10 text-yellow-300">My Wishlist</h1>
+      <div className="max-w-6xl mx-auto mt-10">
+        {itemIds.length === 0 ? (
+          <div className="glass p-8 text-center">
+            <p className="text-xl text-yellow-400">Your wishlist is empty</p>
+            <p className="text-gray-500 mt-2">Add some products to get started!</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {itemIds.map((itemId) => {
+              const itemInfo = productData.find((item) => item.id.toString() === itemId);
+              if (!itemInfo) return null;
+
+              return (
+                <Link to={`/product/${itemId}`} key={itemId} className="glass p-4 rounded-lg">
+                  <img className="w-full h-48 object-cover rounded-lg mb-4" src={itemInfo.image} alt={itemInfo.name} />
+                  <h3 className="font-semibold text-lg text-white">{itemInfo.name}</h3>
+                  <p className="text-yellow-400 font-bold text-sm">${itemInfo.price}</p>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
-      
-    </Link>
+    </div>
   )
 }
 
 export default WishList
+

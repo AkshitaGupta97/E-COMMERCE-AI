@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createContext } from "react";
 import axios from "axios";
 //import {toast} from "react-toastify";
-import { useEffect } from "react";
 import { productData } from "../assets/productdata";
 
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const envUrl = import.meta.env.VITE_BACKEND_URL;
+    const backendUrl = envUrl
+        ? envUrl.startsWith("http")
+            ? envUrl
+            : `http://${envUrl}`
+        : "http://localhost:4000";
     
     const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : false);
     const [userData, setUserData] = useState(false);
@@ -97,15 +101,22 @@ const AppContextProvider = (props) => {
         }
     }
 
-    const getWishlistData = async(token) => {
-        const response = await axios.post(backendUrl+'/api/cart/get-wishlist',  {},
-            {
-                headers: { Authorization: `Bearer ${token}`}    
-            }
-        );
-        setWishlistData(response.data.wishList || {});
-        return response.data.wishList;
-    }
+    const getWishlistData = useCallback(async(token) => {
+        try {
+            const response = await axios.post(backendUrl+'/api/cart/get-wishlist',  {},
+                {
+                    headers: { Authorization: `Bearer ${token}`}    
+                }
+            );
+            const wishList = response.data.wishList || {};
+            setWishlistData(wishList);
+            return wishList;
+        } catch (error) {
+            console.error("Failed to load wishlist:", error);
+            setWishlistData({});
+            return {};
+        }
+    }, [backendUrl]);
 
     const getTotalCartItems = () => {
         let totalItems = 0;
