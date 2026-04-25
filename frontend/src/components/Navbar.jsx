@@ -91,14 +91,14 @@ const Navbar = () => {
             )
           }
 
-          <div className="relative cursor-pointer">
+          <Link to='/wishlist' className="relative cursor-pointer">
             <Heart onClick={() => getWishlistData(token)} className="cursor-pointer hover:text-yellow-400" />
             {getTotalWishlistItems() > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
                 {getTotalWishlistItems()}
               </span>
             )}
-          </div>
+          </Link>
 
           <div className="relative cursor-pointer">
             <Link to="/cart"><ShoppingCart className="hover:text-yellow-400" /></Link>
@@ -132,10 +132,10 @@ const Navbar = () => {
 
           {/* LINKS */}
           <div className="flex flex-col gap-4 mt-1.5 cursor-pointer">
-            <span>Home</span>
-            <span>Shop</span>
-            <span>Deals</span>
-            <span>New Arrivals</span>
+            <Link to='/'>Home</Link>
+            <Link to='/shop'>Shop</Link>
+            <Link to='/deals'>Deals</Link>
+            <Link to='/new-arrivals'>New Arrivals</Link>
           </div>
           <hr className="text-gray-300" />
           {/* ICONS */}
@@ -184,14 +184,14 @@ const Navbar = () => {
               )
             }
 
-            <div className="relative cursor-pointer">
+            <Link to='/wishlist' className="relative cursor-pointer">
               <Heart className="hover:text-amber-300" />
               {getTotalWishlistItems() > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
                   {getTotalWishlistItems()}
                 </span>
               )}
-            </div>
+            </Link>
             <div className="relative cursor-pointer">
               <Link to="/cart"><ShoppingCart className="hover:text-yellow-400" /></Link>
               <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">
@@ -206,9 +206,8 @@ const Navbar = () => {
       <div className="hidden md:flex gap-8 cursor-pointer px-10 py-2 bg-gray-900 text-sm overflow-x-auto">
         <Link to="/deals" className="hover:text-yellow-400 cursor-pointer">Deals</Link>
         <Link to="/fashion" className="hover:text-yellow-400 cursor-pointer">Fashion</Link>
-        <Link to="/" className="hover:text-yellow-400 cursor-pointer">Home</Link>
+        <Link to="/" className="hover:text-blue-400 text-blue-300 cursor-pointer">Home</Link>
         <Link to="/beauty" className="hover:text-yellow-400 cursor-pointer">Beauty</Link>
-        <Link to="/sports" className="hover:text-yellow-400 cursor-pointer">Sports</Link>
         <Link to="/grocery" className="hover:text-yellow-400 cursor-pointer">Grocery</Link>
       </div>
 

@@ -11,7 +11,7 @@ const Deals = () => {
             <img src="https://th.bing.com/th/id/OIP.--Bhv05grQ8eBnssITOZqgHaIt?o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Deal Product" className="rounded-xl mb-3" />
             <h3 className="text-white font-semibold">Product Name</h3>
             <p className="text-yellow-400 font-bold">₹9,999</p>
-            <p className="text-gray-400 text-sm mt-1">Limited time offer - 50% off!</p>
+            <p className="text-green-400 text-sm mt-1">Limited time offer - 50% off!</p>
           </div>
           {/* Repeat similar deal cards as needed */}
         </div>

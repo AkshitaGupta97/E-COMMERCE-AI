@@ -1,13 +1,14 @@
 import {Routes, Route} from "react-router-dom";
 import Home from "./pages/Home";
 //import Shop from "./pages/Shop";
-import Deals from "./pages/Deals";
+import Deals from "./components/Deals";
 import NewArrivals from "./pages/NewArrivals";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Cart from "./components/Cart";
 import Fashion from "./components/Fashion";
 import WishList from "./components/WishList";
+import ProductDetails from "./components/ProductDetails";
 
 function App() {
   
@@ -23,6 +24,7 @@ function App() {
             <Route path="/cart" element={<Cart />} /> 
             <Route path="/fashion" element={<Fashion />} />
             <Route path="/wishlist" element={<WishList />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/new-arrivals" element={<NewArrivals />} />
 
           </Routes>
