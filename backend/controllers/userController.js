@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 
 export const registerUser = async(req, res) => {
     try {
-        const {name, email, password} = req.body;
+        const {name, email, password, address = ""} = req.body;
         if(!name || !email || !password){
             return res.json({success:false, message: "All fields are required"});
         }
@@ -18,7 +18,7 @@ export const registerUser = async(req, res) => {
             return res.json({ success: false, message: "Invalid email" });
         }
         // password length
-        if(password.lingth < 8){
+        if(password.length < 8){
             return res.json({ success: false, message: "Password must be at least 8 characters" });
         }
 
@@ -27,7 +27,7 @@ export const registerUser = async(req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
         
         // add to database
-        const userData = new userModel({name, email, password: hashedPassword});
+        const userData = new userModel({name, email, password: hashedPassword, address});
         await userData.save();
 
         // for token
@@ -93,7 +93,42 @@ export const getUserProfile = async (req, res) => {
     }
 }
 
+export const updateUserProfile = async (req, res) => {
+    try {
+        const {name, email, phone, dob, gender, address = ""} = req.body || {};
+        const userId = req.userId;
+        const imageFile = req.file;
 
+        if(!name.trim() || !phone.trim()){
+            return res.json({success: false, message: "Name and phone number is required.."});
+        }
+
+        const updatedData = {
+            name,
+            email,
+            phone,
+            dob,
+            gender,
+            address
+        };
+
+        if (imageFile) {
+            updatedData.image = imageFile.path;
+        }
+
+        const updatedUser = await userModel.findByIdAndUpdate(userId, updatedData, { new: true }).select("-password");
+
+        if(!updatedUser) {
+            return res.json({ success: false, message: "User not found" });
+        }
+
+        res.json({ success: true, message: "Profile updated successfully", user: updatedUser });
+
+    } catch (error) {
+        console.error("updateProfile error:", error);
+        return res.json({ success: false, message: "Internal server error" });
+    }
+}
 
 
 

@@ -12,6 +12,7 @@ import WishList from "./components/WishList";
 import ProductDetails from "./components/ProductDetails";
 import Login from "./pages/Login";
 import { AppContext } from "./context/AppContext";
+import UserDetails from "./components/UserDetails";
 
 function App() {
   const { token } = useContext(AppContext);
@@ -35,6 +36,11 @@ function App() {
           <Route path="/deals" element={
             <RequireAuth>
               <Deals />
+            </RequireAuth>
+          } />
+          <Route path="/my-profile" element={
+            <RequireAuth>
+              <UserDetails />
             </RequireAuth>
           } />
           <Route path="/cart" element={
