@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { Heart, ShoppingCart } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 
 export default function ProductCard({ product }) {
 
     const { cartData, setCartData, addToWishlist, addToCart, removeFromCart, wishlistData } = useContext(AppContext);
 
-    const [added, setAdded] = useState(false);
+    const added = Boolean(cartData[product.id]);
 
     return (
         <motion.div
@@ -21,8 +21,11 @@ export default function ProductCard({ product }) {
             <p className="text-yellow-400 font-bold">₹{product.price.toLocaleString('en-IN')}</p>
 
             <div className="flex items-center justify-between mt-1">
-                <button disabled={added}  onClick={() => {addToCart(product.id); setAdded(true)}}
-                 className="mt-3 flex items-center gap-2  bg-yellow-400 text-black px-4 py-2  rounded-full hover:scale-95 cursor-pointer text-sm font-semibold transition">
+                <button
+                    disabled={added}
+                    onClick={() => addToCart(product.id)}
+                    className={`mt-3 flex items-center gap-2 bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-semibold transition ${added ? 'opacity-50 cursor-not-allowed' : 'hover:scale-95 cursor-pointer'}`}
+                >
                     <ShoppingCart size={18} />
                     {
                         added ? <span className="text-gray-500">Added</span> : <span>Add to Cart</span>
