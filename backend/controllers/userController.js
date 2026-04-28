@@ -95,40 +95,57 @@ export const getUserProfile = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
     try {
-        const {name, email, phone, dob, gender, address = ""} = req.body || {};
+        const { name, phone, dob, gender, address = "" } = req.body || {};
         const userId = req.userId;
         const imageFile = req.file;
 
-        if(!name.trim() || !phone.trim()){
-            return res.json({success: false, message: "Name and phone number is required.."});
+        if (!name?.trim() || !phone?.trim()) {
+            return res.json({ success: false, message: "Name and phone number is required.." });
         }
 
         const updatedData = {
-            name,
-            email,
-            phone,
-            dob,
-            gender,
-            address
+            name: name.trim(),
+            phone: phone.trim(),
+            dob: dob || "",
+            gender: gender || "",
+            address: address || ""
         };
 
+        // ✅ FIXED IMAGE HANDLING
         if (imageFile) {
-            updatedData.image = imageFile.path;
+            updatedData.image = `${req.protocol}://${req.get("host")}/${imageFile.path}`;
         }
 
-        const updatedUser = await userModel.findByIdAndUpdate(userId, updatedData, { new: true }).select("-password");
+        const updatedUser = await userModel
+            .findByIdAndUpdate(userId, updatedData, { new: true })
+            .select("-password");
 
-        if(!updatedUser) {
+        if (!updatedUser) {
             return res.json({ success: false, message: "User not found" });
         }
 
-        res.json({ success: true, message: "Profile updated successfully", user: updatedUser });
+        res.json({
+            success: true,
+            message: "Profile updated successfully",
+            user: updatedUser
+        });
 
     } catch (error) {
         console.error("updateProfile error:", error);
         return res.json({ success: false, message: "Internal server error" });
     }
-}
+};
+/*
+req.protocol
+Gives the protocol used in the request
+Example: http
+2. req.get("host")
+Gives domain + port
+Example: localhost:4000
+3. imageFile.path
+This is what multer gives you
+Example: uploads/17123456789.jpg
 
-
+e.g. - http://localhost:4000/uploads/17123456789.jpg
+ */
 

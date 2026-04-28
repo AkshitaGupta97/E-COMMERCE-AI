@@ -18,6 +18,8 @@ app.get('/', (req, res) => {
     res.send("API Working");
 });
 
+app.use("/uploads", express.static("uploads"));
+
 // routes
 app.use('/api/user', userRouter);
 app.use('/api/cart', cartRouter);
