@@ -132,10 +132,10 @@ const Navbar = () => {
 
           {/* LINKS */}
           <div className="flex flex-col gap-4 mt-1.5 cursor-pointer">
-            <Link to='/'>Home</Link>
-            <Link to='/shop'>Shop</Link>
-            <Link to='/deals'>Deals</Link>
-            <Link to='/new-arrivals'>New Arrivals</Link>
+            <Link to='/' onClick={() => setMenuOpen(false)}>Home</Link>
+            <Link to='/shop' onClick={() => setMenuOpen(false)}>Shop</Link>
+            <Link to='/deals' onClick={() => setMenuOpen(false)}>Deals</Link>
+            <Link to='/new-arrivals' onClick={() => setMenuOpen(false)}>New Arrivals</Link>
           </div>
           <hr className="text-gray-300" />
           {/* ICONS */}
@@ -184,7 +184,7 @@ const Navbar = () => {
               )
             }
 
-            <Link to='/wishlist' className="relative cursor-pointer">
+            <Link to='/wishlist' onClick={() => setMenuOpen(false)} className="relative cursor-pointer">
               <Heart className="hover:text-amber-300" />
               {getTotalWishlistItems() > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
@@ -193,7 +193,7 @@ const Navbar = () => {
               )}
             </Link>
             <div className="relative cursor-pointer">
-              <Link to="/cart"><ShoppingCart className="hover:text-yellow-400" /></Link>
+              <Link to="/cart" onClick={() => setMenuOpen(false)}><ShoppingCart className="hover:text-yellow-400" /></Link>
               <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs px-1 rounded-full">
                 {getTotalCartItems() || 0}
               </span>
