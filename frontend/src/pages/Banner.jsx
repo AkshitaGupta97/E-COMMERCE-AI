@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
-    const navigate = useNavigate();
-    
+  const navigate = useNavigate();
   return (
     <section className="w-full overflow-hidden rounded-3xl bg-linear-to-r from-slate-900 via-slate-800 to-slate-900 px-4 mt-4 py-8 sm:px-6 lg:px-10 mb-6 shadow-2xl shadow-slate-950/30">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
@@ -18,10 +17,10 @@ const Banner = () => {
           </p>
 
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
-            <button onClick={() => navigate("/products")} className="rounded-full bg-emerald-400 px-6 py-3 cursor-pointer text-sm font-semibold text-slate-950 transition hover:bg-emerald-300">
+            <a href="/#products" className="rounded-full bg-emerald-400 px-6 py-3 cursor-pointer text-sm font-semibold text-slate-950 transition hover:bg-emerald-300">
               Start Shopping
-            </button>
-            <button onClick={() => navigate("/deals")} className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-emerald-300 hover:text-emerald-300">
+            </a>
+            <button onClick={() => navigate("/deals")} className="rounded-full border cursor-pointer border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-emerald-300 hover:text-emerald-300">
               Explore Deals
             </button>
           </div>
