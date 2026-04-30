@@ -23,6 +23,7 @@ app.use("/uploads", express.static("uploads"));
 // routes
 app.use('/api/user', userRouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/product', productRouter);
 
 // START SERVER AFTER DB CONNECTS
 const startServer = async () => {

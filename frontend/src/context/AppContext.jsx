@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { createContext } from "react";
 import axios from "axios";
-import { productData } from "../assets/productdata";
+//import { productData } from "../assets/productdata";
 
-export const AppContext = createContext();
+export const AppContext = createContext({
+    productData: []
+});
 
 const AppContextProvider = (props) => {
 
@@ -22,6 +24,19 @@ const AppContextProvider = (props) => {
     const [userData, setUserData] = useState(false);
     const [cartData, setCartData] = useState({});
     const [wishlistData, setWishlistData] = useState({});
+    const [productData, setProductData] = useState([]);
+
+    // ================= PRODUCTS =================
+
+    const fetchProductList = async () => {
+        const response = await axios.get(backendUrl + "/api/product/list");
+
+        if (response.data.success) {
+            setProductData(response.data.productData);
+        } else {
+            setProductData([]);
+        }
+    }
 
     // ================= USER =================
 
@@ -214,6 +229,7 @@ const AppContextProvider = (props) => {
     useEffect(() => {
         if (token) {
             loadUserProfileData();
+            fetchProductList();
         } else {
             setUserData(false);
             setCartData({});
@@ -233,7 +249,7 @@ const AppContextProvider = (props) => {
 
     const value = {
         backendUrl,
-
+        productData,
         token, setToken,
 
         userData, setUserData, loadUserProfileData,
