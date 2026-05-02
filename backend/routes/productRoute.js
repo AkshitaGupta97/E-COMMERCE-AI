@@ -1,6 +1,6 @@
 import express from "express";
-import { addProduct } from "../controllers/productController";
-import upload from "../middleware/multer";
+import { addProduct, listProducts, removeProduct } from "../controllers/productController.js";
+import upload from "../middleware/multer.js";
 
 const productRouter = express.Router();
 

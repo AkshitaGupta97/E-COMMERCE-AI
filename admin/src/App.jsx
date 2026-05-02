@@ -4,7 +4,8 @@ import Navbar from './components/Navbar'
 import AddProduct from './pages/AddProduct'
 import Orders from './pages/Orders'
 import List from './pages/List'
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
   return (

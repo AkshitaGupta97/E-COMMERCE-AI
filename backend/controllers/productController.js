@@ -1,4 +1,4 @@
-import { productModel } from "../models/productModels";
+import { productModel } from "../models/productModels.js";
 import fs from 'fs';
 import mongoose from "mongoose";
 
@@ -35,13 +35,13 @@ export const addProduct = async (req, res) => {
 }
 
 // we can crate / add all new food
-const listProducts = async (req, res) => {
+export const listProducts = async (req, res) => {
     try {
         const productData = await productModel.find({});
         res.json({ success: true, productData });
     }
-    catch{
-        console.log(error);
+    catch(error){
+        console.error(error);
         res.json({ success: false, message: "Failed to fetch products" });
     }
 }

@@ -35,7 +35,7 @@ const AddProduct = () => {
 
         try {
             const response = await axios.post(`${url}/api/product/add-product`, formData);
-            if(response.data.success){
+            if (response.data.success) {
                 setData({
                     name: "",
                     description: "",
@@ -43,15 +43,16 @@ const AddProduct = () => {
                     category: ""
                 })
                 setImage(false);
-                toast.success(response.data.success);
+                toast.success(response.data.message || "Product added successfully");
             }
             else {
-                toast.error(response.data.message);
+                toast.error(response.data.message || "Failed to add product");
                 console.log("Server res -> ", response.data);
             }
 
         } catch (error) {
-            toast.error(response.data.message)
+            const errorMessage = error.response?.data?.message || error.message || "Request failed";
+            toast.error(errorMessage);
             console.error("Request error:", error)
         }
     }
