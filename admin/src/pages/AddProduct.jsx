@@ -9,7 +9,7 @@ const AddProduct = () => {
         name: "",
         description: "",
         price: "",
-        category: "",
+        category: "Fashion",
     });
 
     const onChangeHandler = (event) => {
@@ -40,7 +40,7 @@ const AddProduct = () => {
                     name: "",
                     description: "",
                     price: "",
-                    category: ""
+                    category: "Fashion"
                 })
                 setImage(false);
                 toast.success(response.data.message || "Product added successfully");
@@ -118,15 +118,15 @@ const AddProduct = () => {
                 className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-sm text-slate-200 focus:border-yellow-300 focus:ring-1 focus:ring-yellow-300"
                 required
             />
-            <input
-                type="text"
-                name="category"
-                value={data.category}
-                onChange={onChangeHandler}
-                placeholder="Product Category"
-                className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-sm text-slate-200 focus:border-yellow-300 focus:ring-1 focus:ring-yellow-300"
-                required
-            />
+            <div>
+                <p className="text-amber-200 font-semibold">Select Category</p>
+                <select name="category" id="" className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-sm text-slate-200 focus:border-yellow-300 focus:ring-1 focus:ring-yellow-300">
+                    <option className="bg-slate-800 text-white" value="fashion">Fashion</option>
+                    <option className="bg-slate-800 text-white" value="beauty">Beauty</option>
+                    <option className="bg-slate-800 text-white" value="grocery">Grocery</option>
+                    <option className="bg-slate-800 text-white" value="new-arrival">New Arrival</option>
+                </select>
+            </div>
 
             <button
                 type="submit"
