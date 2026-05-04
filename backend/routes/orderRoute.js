@@ -11,4 +11,3 @@ orderRouter.get("/list", listOrders);
 orderRouter.post('/status', updateStatus);
 
 export default orderRouter;
-
