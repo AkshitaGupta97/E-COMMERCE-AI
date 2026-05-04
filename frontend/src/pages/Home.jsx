@@ -1,10 +1,13 @@
 
-import ProductCard from "../components/ProductCard"
+//import ProductCard from "../components/ProductCard"
+import { useContext } from "react";
 import { productData } from "../assets/productdata.js"
 import Banner from "./Banner.jsx"
 import NewArrivals from "./NewArrivals.jsx"
+import { AppContext } from "../context/AppContext.jsx";
 
 const Home = () => {
+    const {productData} = useContext(AppContext);
     return (
         <div className="mt-36 px-8">
              <Banner />
