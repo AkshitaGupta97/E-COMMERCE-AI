@@ -7,7 +7,7 @@ const ProductDetails = () => {
     
     const { cartData, backendUrl, addToWishlist, productData, addToCart, removeFromCart, wishlistData } = useContext(AppContext);
     const { id } = useParams();
-    const productId = Number(id);
+    const productId = id;
     const product = productData.find((item) => item._id === productId);
 
     if (!product) {
@@ -49,7 +49,7 @@ const ProductDetails = () => {
                     <div className="space-y-4">
                         <button
                             disabled={added}
-                            onClick={() => addToCart(product._id)}
+                            onClick={(e) => { e.stopPropagation(); addToCart(product._id); }}
                             className={`w-full md:w-auto inline-flex items-center justify-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-full text-lg font-semibold transition ${added ? "opacity-50 cursor-not-allowed" : "hover:scale-95 cursor-pointer"}`}
                         >
                             {added ? "Added to Cart" : "Add to Cart"}
@@ -69,7 +69,7 @@ const ProductDetails = () => {
 
                         <button
                             className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm cursor-pointer font-semibold transition ${isWishlisted ? "bg-red-600 text-white" : "bg-gray-800 text-gray-200 hover:bg-gray-700"}`}
-                            onClick={() => addToWishlist(product._id)}
+                            onClick={(e) => { e.stopPropagation(); addToWishlist(product._id); }}
                         >
                             {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
                         </button>

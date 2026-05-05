@@ -1,6 +1,6 @@
 
 //import ProductCard from "../components/ProductCard"
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { productData } from "../assets/productdata.js"
 import Banner from "./Banner.jsx"
 import NewArrivals from "./NewArrivals.jsx"
@@ -9,6 +9,18 @@ import ProductCard from "../components/ProductCard.jsx";
 
 const Home = () => {
     const {productData} = useContext(AppContext);
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('product');
+        if (productId) {
+            const element = document.getElementById(productId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [productData]);
+
     return (
         <div className="mt-36 px-8">
              <Banner />

@@ -1,10 +1,24 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { AppContext } from "../context/AppContext";
 //import { productData } from "../assets/productdata";
 
 const NewArrivals = () => {
   const {productData} = useContext(AppContext);
+
+  const filteredProducts = productData.filter(product => product.category === "new-arrival");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('product');
+    if (productId) {
+      const element = document.getElementById(productId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [productData]);
+
   return (
     <main className="min-h-screen bg-slate-950 text-white px-4 py-10 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
@@ -25,7 +39,7 @@ const NewArrivals = () => {
             </div>
             <div className="rounded-3xl bg-slate-950/80 px-5 py-4 text-center text-slate-300 shadow-inner shadow-slate-900/50">
               <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Featured</p>
-              <p className="mt-2 text-3xl font-semibold text-white">{productData.length} Products</p>
+              <p className="mt-2 text-3xl font-semibold text-white">{filteredProducts.length} Products</p>
               <p className="text-sm text-slate-400">New arrivals, ready to ship</p>
             </div>
           </div>
@@ -33,7 +47,7 @@ const NewArrivals = () => {
 
         <section>
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            {productData.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
