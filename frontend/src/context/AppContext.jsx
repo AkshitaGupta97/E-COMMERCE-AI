@@ -29,11 +29,16 @@ const AppContextProvider = (props) => {
     // ================= PRODUCTS =================
 
     const fetchProductList = async () => {
-        const response = await axios.get(backendUrl + "/api/product/list");
+        try {
+            const response = await axios.get(backendUrl + "/api/product/list-products");
 
-        if (response.data.success) {
-            setProductData(response.data.productData);
-        } else {
+            if (response.data.success) {
+                setProductData(response.data.productData);
+            } else {
+                setProductData([]);
+            }
+        } catch (error) {
+            console.error("Failed to fetch products:", error);
             setProductData([]);
         }
     }
@@ -198,7 +203,7 @@ const AppContextProvider = (props) => {
         for (let key in cartData) {
             if (cartData[key] > 0) {
                 const itemExists = productData.find(
-                    (item) => item.id.toString() === key
+                    (item) => item?._id?.toString() === key
                 );
 
                 if (itemExists) {

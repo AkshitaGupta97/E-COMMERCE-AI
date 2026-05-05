@@ -5,6 +5,7 @@ import { productData } from "../assets/productdata.js"
 import Banner from "./Banner.jsx"
 import NewArrivals from "./NewArrivals.jsx"
 import { AppContext } from "../context/AppContext.jsx";
+import ProductCard from "../components/ProductCard.jsx";
 
 const Home = () => {
     const {productData} = useContext(AppContext);
@@ -14,7 +15,7 @@ const Home = () => {
             <p className="text-lg text-blue-200 mb-6">Discover the best products at unbeatable prices. Shop now and experience the future of online shopping with AI-powered recommendations!</p>
             <div id="products" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {productData.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard key={product._id} product={product} />
                 ))}
             </div>
             <NewArrivals />

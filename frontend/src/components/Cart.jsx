@@ -1,16 +1,17 @@
 import { useContext } from "react";
-import { productData } from "../assets/productdata";
+//import { productData } from "../assets/productdata";
 import { AppContext } from "../context/AppContext";
 
 const Cart = () => {
-  const { cartData, addToCart, removeFromCart, getTotalCartItems } = useContext(AppContext);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  const { cartData, addToCart, productData, removeFromCart, getTotalCartItems } = useContext(AppContext);
 
   // Calculate total price
   const getTotalPrice = () => {
     let total = 0;
     productData.forEach((product) => {
-      if (cartData[product.id]) {
-        total += cartData[product.id] * product.price;
+      if (cartData[product._id]) {
+        total += cartData[product._id] * product.price;
       }
     });
     return total;
@@ -45,15 +46,15 @@ const Cart = () => {
                 {/* Cart Items */}
                 <div className="space-y-4">
                   {productData.map((product) => {
-                    if (cartData[product.id]) {
+                    if (cartData[product._id]) {
                       return (
-                        <div key={product.id} className="glass p-4 rounded-lg">
+                        <div key={product._id} className="glass p-4 rounded-lg">
                           <div className="grid md:grid-cols-6 gap-4 items-center">
                             {/* Product Info */}
                             <div className="col-span-2 flex items-center gap-4">
                               <img
                                 className="w-16 h-16 rounded-lg object-cover"
-                                src={product.image}
+                                src={`${backendUrl}/uploads/${product.image}`}
                                 alt={product.name}
                               />
                               <div>
@@ -71,16 +72,16 @@ const Cart = () => {
                             <div className="flex items-center gap-2">
                               <button
                                 className="w-8 h-8 rounded-full bg-gray-700 font-bold cursor-pointer hover:bg-gray-600 text-white flex items-center justify-center transition-colors"
-                                onClick={() => removeFromCart(product.id)}
+                                onClick={() => removeFromCart(product._id)}
                               >
                                 -
                               </button>
                               <span className="w-8 text-center text-white font-medium">
-                                {cartData[product.id]}
+                                {cartData[product._id]}
                               </span>
                               <button
                                 className="w-8 h-8 rounded-full bg-blue-600 font-bold hover:bg-blue-500 cursor-pointer text-white flex items-center justify-center transition-colors"
-                                onClick={() => addToCart(product.id)}
+                                onClick={() => addToCart(product._id)}
                               >
                                 +
                               </button>
@@ -88,13 +89,13 @@ const Cart = () => {
 
                             {/* Total */}
                             <div className="text-cyan-100 font-semibold">
-                              ₹{cartData[product.id] * product.price}
+                              ₹{cartData[product._id] * product.price}
                             </div>
 
                             {/* Remove */}
                             <button
                               className="text-red-400 hover:text-red-600 cursor-pointer transition-colors p-2"
-                              onClick={() => removeFromCart(product.id)}
+                              onClick={() => removeFromCart(product._id)}
                             >
                               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

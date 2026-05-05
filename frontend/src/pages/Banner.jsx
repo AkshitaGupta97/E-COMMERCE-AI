@@ -25,7 +25,7 @@ const Banner = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div className="hidden gap-3 sm:grid sm:grid-cols-3">
             <div className="rounded-3xl bg-white/5 p-4 text-center text-white/90">
               <p className="text-2xl font-semibold">500+</p>
               <p className="text-sm text-slate-400">AI-curated products</p>

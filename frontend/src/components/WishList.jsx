@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react"
 import { AppContext } from "../context/AppContext"
-import { productData } from "../assets/productdata";
+// import { productData } from "../assets/productdata";
 import { Link } from "react-router-dom";
 
 const WishList = () => {
-  const { wishlistData, getWishlistData, token } = useContext(AppContext);
+  const { wishlistData, backendUrl,  getWishlistData, productData, token } = useContext(AppContext);
   const itemIds = Object.keys(wishlistData || {});
 
   useEffect(() => {
@@ -25,12 +25,12 @@ const WishList = () => {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {itemIds.map((itemId) => {
-              const itemInfo = productData.find((item) => item.id.toString() === itemId);
+              const itemInfo = productData.find((item) => item._id === itemId);
               if (!itemInfo) return null;
 
               return (
                 <Link to={`/product/${itemId}`} key={itemId} className="glass p-4 rounded-lg">
-                  <img className="w-full h-48 object-cover rounded-lg mb-4" src={itemInfo.image} alt={itemInfo.name} />
+                  <img className="w-full h-48 object-cover rounded-lg mb-4" src={`${backendUrl}/uploads/${itemInfo.image}`} alt={itemInfo.name} />
                   <h3 className="font-semibold text-lg text-white">{itemInfo.name}</h3>
                   <p className="text-yellow-400 font-bold text-sm">${itemInfo.price}</p>
                 </Link>

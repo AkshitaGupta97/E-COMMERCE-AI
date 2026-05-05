@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import ProductCard from "../components/ProductCard";
-import { productData } from "../assets/productdata";
+import { AppContext } from "../context/AppContext";
+//import { productData } from "../assets/productdata";
 
 const NewArrivals = () => {
+  const {productData} = useContext(AppContext);
   return (
     <main className="min-h-screen bg-slate-950 text-white px-4 py-10 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
@@ -31,7 +34,7 @@ const NewArrivals = () => {
         <section>
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {productData.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product._id} product={product} />
             ))}
           </div>
         </section>

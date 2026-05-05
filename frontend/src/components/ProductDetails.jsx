@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import { productData } from "../assets/productdata";
+//import { productData } from "../assets/productdata";
 
 const ProductDetails = () => {
+    
+    const { cartData, backendUrl, addToWishlist, productData, addToCart, removeFromCart, wishlistData } = useContext(AppContext);
     const { id } = useParams();
     const productId = Number(id);
-    const product = productData.find((item) => item.id === productId);
-
-    const { cartData, addToWishlist, addToCart, removeFromCart, wishlistData } = useContext(AppContext);
+    const product = productData.find((item) => item._id === productId);
 
     if (!product) {
         return (
@@ -30,7 +30,7 @@ const ProductDetails = () => {
 
             <div className="bg-gray-900 flex flex-col md:flex-row gap-4 p-6 rounded-3xl shadow-lg hover:shadow-yellow-400/20 transition max-w-5xl mx-auto mt-8">
                 <img
-                    src={product.image}
+                    src={`${backendUrl}/uploads/${product.image}`}
                     alt={product.name}
                     className="md:w-1/2 w-full h-72 md:h-auto rounded-2xl object-cover"
                 />
@@ -49,7 +49,7 @@ const ProductDetails = () => {
                     <div className="space-y-4">
                         <button
                             disabled={added}
-                            onClick={() => addToCart(product.id)}
+                            onClick={() => addToCart(product._id)}
                             className={`w-full md:w-auto inline-flex items-center justify-center gap-2 bg-yellow-400 text-black px-6 py-3 rounded-full text-lg font-semibold transition ${added ? "opacity-50 cursor-not-allowed" : "hover:scale-95 cursor-pointer"}`}
                         >
                             {added ? "Added to Cart" : "Add to Cart"}
@@ -57,11 +57,11 @@ const ProductDetails = () => {
 
                         {added && (
                             <div className="flex items-center gap-4 text-white">
-                                <button className="counter-btn rounded-full bg-gray-800 px-3 py-2" onClick={() => removeFromCart(product.id)}>
+                                <button className="counter-btn rounded-full bg-gray-800 px-3 py-2" onClick={() => removeFromCart(product._id)}>
                                     <span className="material-symbols-outlined text-red-400">remove</span>
                                 </button>
                                 <span className="border border-amber-400 rounded-full bg-amber-50 text-black font-semibold px-4 py-2">{quantity}</span>
-                                <button className="counter-btn rounded-full bg-gray-800 px-3 py-2" onClick={() => addToCart(product.id)}>
+                                <button className="counter-btn rounded-full bg-gray-800 px-3 py-2" onClick={() => addToCart(product._id)}>
                                     <span className="material-symbols-outlined text-green-400">add</span>
                                 </button>
                             </div>
@@ -69,7 +69,7 @@ const ProductDetails = () => {
 
                         <button
                             className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm cursor-pointer font-semibold transition ${isWishlisted ? "bg-red-600 text-white" : "bg-gray-800 text-gray-200 hover:bg-gray-700"}`}
-                            onClick={() => addToWishlist(product.id)}
+                            onClick={() => addToWishlist(product._id)}
                         >
                             {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
                         </button>
@@ -80,13 +80,13 @@ const ProductDetails = () => {
             <section className="max-w-5xl mx-auto mt-10">
                 <h2 className="text-xl font-bold text-white mb-4">More Products</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {productData.filter((item) => item.id !== productId).map((item) => (
+                    {productData.filter((item) => item._id !== productId).map((item) => (
                         <Link
-                            key={item.id}
-                            to={`/product/${item.id}`}
+                            key={item._id}
+                            to={`/product/${item._id}`}
                             className="block rounded-3xl bg-gray-900 p-4 transition hover:shadow-yellow-400/20"
                         >
-                            <img src={item.image} alt={item.name} className="w-full h-48 object-cover rounded-2xl mb-4" />
+                            <img src={`${backendUrl}/uploads/${item.image}`} alt={item.name} className="w-full h-48 object-cover rounded-2xl mb-4" />
                             <div className="space-y-2">
                                 <p className="text-white font-semibold">{item.name}</p>
                                 <p className="text-yellow-400">₹{item.price.toLocaleString("en-IN")}</p>
