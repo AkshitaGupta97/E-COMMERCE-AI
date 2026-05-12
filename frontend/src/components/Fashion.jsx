@@ -8,17 +8,6 @@ const Fashion = () => {
 
   const filteredProducts = productData.filter(product => product.category === "fashion");
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('product');
-    if (productId) {
-      const element = document.getElementById(productId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [productData]);
-
   return (
     <div className="min-h-screen pt-16 pb-12 px-4 mt-20">
       <div className="max-w-6xl mx-auto">

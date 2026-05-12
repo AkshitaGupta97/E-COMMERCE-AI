@@ -8,17 +8,6 @@ const NewArrivals = () => {
 
   const filteredProducts = productData.filter(product => product.category === "new-arrival");
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('product');
-    if (productId) {
-      const element = document.getElementById(productId);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [productData]);
-
   return (
     <main className="min-h-screen bg-slate-950 text-white px-4 py-10 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">

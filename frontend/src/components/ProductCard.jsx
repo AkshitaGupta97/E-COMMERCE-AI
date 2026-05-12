@@ -15,21 +15,12 @@ export default function ProductCard({ product }) {
 
     const navigate = useNavigate();
 
-    const getCategoryPath = (category) => {
-        switch(category) {
-            case "new-arrival": return "/new-arrivals";
-            case "deals": return "/deals";
-            case "fashion": return "/fashion";
-            default: return "/";
-        }
-    };
-
     return (
         <motion.div
             id={product._id}
             whileHover={{ scale: 1.05 }}
             className="bg-gray-900 p-4 rounded-2xl shadow-lg 
-                 hover:shadow-yellow-400/20 transition" onClick={() => navigate(`${getCategoryPath(product.category)}?product=${product._id}`)}
+                 hover:shadow-yellow-400/20 transition cursor-pointer" onClick={() => navigate(`/product/${product._id}`)}
         >
             <img src={imageUrl} alt={product.name} className="rounded-xl mb-3 w-full h-48 object-cover" />
 

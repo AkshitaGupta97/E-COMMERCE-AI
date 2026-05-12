@@ -9,7 +9,7 @@ const AddProduct = () => {
         name: "",
         description: "",
         price: "",
-        category: "Fashion",
+        category: "",
     });
 
     const onChangeHandler = (event) => {
@@ -40,7 +40,7 @@ const AddProduct = () => {
                     name: "",
                     description: "",
                     price: "",
-                    category: "Fashion"
+                    category: "fashion"
                 })
                 setImage(false);
                 toast.success(response.data.message || "Product added successfully");
@@ -56,7 +56,6 @@ const AddProduct = () => {
             console.error("Request error:", error)
         }
     }
-
 
   return (
     <div className="">
@@ -120,15 +119,22 @@ const AddProduct = () => {
             />
             <div>
                 <p className="text-amber-200 font-semibold">Select Category</p>
-                <select name="category" id="" className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-sm text-slate-200 focus:border-yellow-300 focus:ring-1 focus:ring-yellow-300">
+                <select 
+                    name="category" 
+                    value={data.category}
+                    onChange={onChangeHandler}
+                    className="w-full rounded-lg border border-slate-700 bg-slate-800/50 px-4 py-2 text-sm text-slate-200 focus:border-yellow-300 focus:ring-1 focus:ring-yellow-300"
+                >
+                    <option className="bg-slate-800 text-white" value="">Select a category</option>
                     <option className="bg-slate-800 text-white" value="fashion">Fashion</option>
-                    <option className="bg-slate-800 text-white" value="beauty">Beauty</option>
                     <option className="bg-slate-800 text-white" value="grocery">Grocery</option>
+                    <option className="bg-slate-800 text-white" value="beauty">Beauty</option>
                     <option className="bg-slate-800 text-white" value="new-arrival">New Arrival</option>
                 </select>
             </div>
 
             <button
+
                 type="submit"
                 className="rounded-lg bg-yellow-500/90 cursor-pointer px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             >

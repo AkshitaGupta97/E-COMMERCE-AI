@@ -34,6 +34,7 @@ const AppContextProvider = (props) => {
 
             if (response.data.success) {
                 setProductData(response.data.productData);
+                console.log("Products =====", response.data.productData);
             } else {
                 setProductData([]);
             }
@@ -207,7 +208,7 @@ const AppContextProvider = (props) => {
                 );
 
                 if (itemExists) {
-                    total += cartData[key];
+                    total += cartData[key] * itemExists.price;
                 }
             }
         }
@@ -254,7 +255,7 @@ const AppContextProvider = (props) => {
 
     const value = {
         backendUrl,
-        productData,
+        productData, fetchProductList,
         token, setToken,
 
         userData, setUserData, loadUserProfileData,

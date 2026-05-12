@@ -13,6 +13,9 @@ import ProductDetails from "./components/ProductDetails";
 import Login from "./pages/Login";
 import { AppContext } from "./context/AppContext";
 import UserDetails from "./components/UserDetails";
+import Beauty from "./components/Beauty";
+import Grocery from "./components/Grocery";
+import PlaceOrder from "./components/PlaceOrder";
 
 function App() {
   const { token } = useContext(AppContext);
@@ -67,6 +70,21 @@ function App() {
           <Route path="/new-arrivals" element={
             <RequireAuth>
               <NewArrivals />
+            </RequireAuth>
+          } />
+          <Route path="/beauty" element={
+            <RequireAuth>
+              <Beauty />
+            </RequireAuth>
+          } />
+          <Route path="/grocery" element={
+            <RequireAuth>
+              <Grocery />
+            </RequireAuth>
+          } />
+          <Route path="/place-order" element={
+            <RequireAuth>
+              <PlaceOrder />
             </RequireAuth>
           } />
           <Route path="*" element={<Navigate to={token ? "/" : "/login"} replace />} />

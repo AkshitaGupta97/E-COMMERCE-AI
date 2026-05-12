@@ -4,7 +4,7 @@ import { AppContext } from "../context/AppContext"
 import { Link } from "react-router-dom";
 
 const WishList = () => {
-  const { wishlistData, backendUrl,  getWishlistData, productData, token } = useContext(AppContext);
+  const { wishlistData, backendUrl, getWishlistData, productData, token } = useContext(AppContext);
   const itemIds = Object.keys(wishlistData || {});
 
   useEffect(() => {
@@ -29,10 +29,21 @@ const WishList = () => {
               if (!itemInfo) return null;
 
               return (
-                <Link to={`/product/${itemId}`} key={itemId} className="glass p-4 rounded-lg">
-                  <img className="w-full h-48 object-cover rounded-lg mb-4" src={`${backendUrl}/uploads/${itemInfo.image}`} alt={itemInfo.name} />
+                <Link
+                  key={itemId}
+                  to={`/product/${itemId}`}
+                  className="glass p-4 rounded-lg transition hover:shadow-yellow-400/20"
+                >
+                  <img
+                    className="w-full h-48 object-cover rounded-lg mb-4"
+                    src={`${backendUrl}/uploads/${itemInfo.image}`}
+                    alt={itemInfo.name}
+                  />
                   <h3 className="font-semibold text-lg text-white">{itemInfo.name}</h3>
                   <p className="text-yellow-400 font-bold text-sm">${itemInfo.price}</p>
+                  <p className="text-gray-400 text-sm mt-3">
+                    {itemInfo.description || "No description available."}
+                  </p>
                 </Link>
               );
             })}

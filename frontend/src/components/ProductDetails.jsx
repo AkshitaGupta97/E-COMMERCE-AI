@@ -40,8 +40,7 @@ const ProductDetails = () => {
                         <h3 className="text-white font-semibold text-2xl md:text-3xl">{product.name}</h3>
                         <p className="text-yellow-400 font-bold text-xl md:text-2xl">₹{product.price.toLocaleString("en-IN")}</p>
                         <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-                            Discover the latest premium accessory designed to deliver crisp sound, comfortable fit, and long battery life.
-                            This product detail view is powered by `productData`, and it updates automatically as you select different items.
+                            {product.description || "No description available for this product."}
                         </p>
                         
                     </div>
