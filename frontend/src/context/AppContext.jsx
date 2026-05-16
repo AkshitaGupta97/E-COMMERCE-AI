@@ -208,7 +208,7 @@ const AppContextProvider = (props) => {
                 );
 
                 if (itemExists) {
-                    total += cartData[key] * itemExists.price;
+                    total += cartData[key] //* itemExists.price;
                 }
             }
         }
