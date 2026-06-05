@@ -4,7 +4,8 @@ import axios from "axios";
 //import { productData } from "../assets/productdata";
 
 export const AppContext = createContext({
-    productData: []
+    productData: [],
+    cartData: {},
 });
 
 const AppContextProvider = (props) => {
@@ -34,7 +35,7 @@ const AppContextProvider = (props) => {
 
             if (response.data.success) {
                 setProductData(response.data.productData);
-                console.log("Products =====", response.data.productData);
+             //   console.log("Products =====", response.data.productData);
             } else {
                 setProductData([]);
             }

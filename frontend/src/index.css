@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@import "tailwindcss";
-
 /* ===== Root Theme (Premium Dark) ===== */
 :root {
   --background: #0a0f1c;
@@ -43,6 +41,48 @@ body {
   box-sizing: border-box;
 }
 
+.glass {
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 1.5rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.text-shadow-white {
+  text-shadow: 0 2px 12px rgba(255, 255, 255, 0.12);
+}
+
+.food-item-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 9999px;
+  padding: 0.35rem 0.5rem;
+}
+
+.counter-btn {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(148, 163, 184, 0.12);
+  transition: background-color 0.2s ease;
+}
+
+.counter-btn:hover {
+  background: rgba(148, 163, 184, 0.24);
+}
+
+.remove-symbol,
+.add-symbol {
+  font-size: 1rem;
+}
+
 /* ===== Scrollbar (Premium Look) ===== */
 ::-webkit-scrollbar {
   width: 8px;
@@ -55,14 +95,6 @@ body {
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #2563eb, #1e40af);
   border-radius: 10px;
-}
-
-/* ===== Glass Effect Utility ===== */
-.glass {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  border-radius: 16px;
 }
 
 /* ===== Glow Effect ===== */

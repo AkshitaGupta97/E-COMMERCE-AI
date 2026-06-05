@@ -1,6 +1,7 @@
 import { useContext } from "react";
 //import { productData } from "../assets/productdata";
 import { AppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
@@ -16,7 +17,7 @@ const Cart = () => {
     });
     return total;
   };
-
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen pt-24 pb-12 px-4 mt-20">
       <div className="max-w-6xl mx-auto">
@@ -140,7 +141,7 @@ const Cart = () => {
                   </div>
                 </div>
 
-                <button className="w-full btn-premium cursor-pointer mt-6 py-3 text-lg font-semibold">
+                <button onClick={() => navigate('/place-order')} className="w-full btn-premium cursor-pointer mt-6 py-3 text-lg font-semibold">
                   Proceed to Checkout
                 </button>
 

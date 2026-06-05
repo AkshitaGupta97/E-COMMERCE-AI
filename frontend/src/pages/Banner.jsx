@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const Banner = () => {
   const navigate = useNavigate();
   return (
-    <section className="w-full overflow-hidden rounded-3xl bg-linear-to-r from-slate-900 via-slate-800 to-slate-900 px-4 mt-4 py-8 sm:px-6 lg:px-10 mb-6 shadow-2xl shadow-slate-950/30">
+    <section className="w-full overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-4 mt-4 py-8 sm:px-6 lg:px-10 mb-6 shadow-2xl shadow-slate-950/30">
       <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
         <div className="space-y-6 text-center lg:text-left">
           <p className="inline-flex rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">
@@ -47,7 +47,7 @@ const Banner = () => {
             alt="ShopEase banner"
             className="h-80 w-full object-cover sm:h-96 lg:h-112"
           />
-          <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-slate-950/90 via-slate-950/20 to-transparent px-6 py-5 text-white">
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent px-6 py-5 text-white">
             <p className="text-sm uppercase tracking-[0.25em] text-emerald-300">Shop smarter with AI</p>
             <p className="mt-2 text-lg font-semibold sm:text-xl">
               Hand-picked collections, tailored recommendations, and exclusive offers.

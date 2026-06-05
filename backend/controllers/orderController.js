@@ -2,6 +2,12 @@ import orderModel from "../models/orderModel.js"
 import Stripe from "stripe"
 import userModel from "../models/userModels.js"
 
+const stripeKey = process.env.STRIPE_KEY;
+
+const stripe = stripeKey
+    ? new Stripe(stripeKey, { apiVersion: "2022-11-15" })
+    : null;
+
 // placing order from frontend
 export const placeOrder = async(req, res) => {
     const frontend_url = "https://localhost:5173"
@@ -16,6 +22,10 @@ export const placeOrder = async(req, res) => {
         await newOrder.save();
         // now clear the cart after placing the order
         await userModel.findByIdAndUpdate(req.body.userId, {cartData: {}});
+
+        if (!stripe) {
+            return res.json({ success: false, message: "Stripe is not configured on the server." });
+        }
 
         // creating logic for stripe
         const line_items = req.body.items.map((item) => ({
