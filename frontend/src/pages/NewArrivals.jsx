@@ -9,7 +9,7 @@ const NewArrivals = () => {
   const filteredProducts = productData.filter(product => product.category === "new-arrival");
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white px-4 py-10 sm:px-6 lg:px-10">
+    <main className="min-h-screen bg-slate-950 text-white px-4 py-12 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-7xl">
         <section className="mb-8 rounded-3xl border border-white/10 bg-slate-900/80 p-8 shadow-2xl shadow-slate-950/40">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">

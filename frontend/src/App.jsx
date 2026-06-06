@@ -17,6 +17,10 @@ import Beauty from "./components/Beauty";
 import Grocery from "./components/Grocery";
 import PlaceOrder from "./components/PlaceOrder";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 function App() {
   const { token } = useContext(AppContext);
 
@@ -26,8 +30,24 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={2800}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName="custom-toast"
+        bodyClassName="custom-toast-body"
+        progressClassName="custom-toast-progress"
+      />
       <div className="App">
-        <Navbar />
+        <RequireAuth>
+          <Navbar />
+        </RequireAuth>
         {/* MAIN CONTENT */}
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -61,7 +81,7 @@ function App() {
               <WishList />
             </RequireAuth>
           } />
-          
+
           <Route path="/product/:id" element={
             <RequireAuth>
               <ProductDetails />

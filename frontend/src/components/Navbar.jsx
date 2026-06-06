@@ -21,21 +21,29 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-black text-white font-semibold fixed w-full z-50 shadow-lg">
+    <nav className="bg-black text-white font-semibold fixed top-0 left-0 right-0 w-full z-50 shadow-lg glass backdrop-blur-sm">
       {/* MAIN NAV */}
-      <div className="flex items-center justify-between px-4 md:px-10 py-3">
+      <div className="flex items-center justify-between px-4 md:px-10 py-3 sm:py-4">
 
         {/* LEFT - LOGO */}
         <Link to="/">
-          <img src={neurocartlogo} alt="logo" className="h-20 w-36" />
+          <img src={neurocartlogo} alt="logo" className="h-16 md:h-20 w-auto md:w-36" />
         </Link>
 
-        {/* CENTER - SEARCH (Hidden on mobile) */}
+        {/* CENTER - SEARCH */}
         <div className="hidden md:block w-1/2">
           <input
             type="text"
             placeholder="Search products..."
             className="w-full px-4 py-2 rounded-full text-white bg-gray-800 placeholder:text-gray-500 focus:outline-none"
+          />
+        </div>
+
+        <div className="flex-1 mx-4 block md:hidden">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="w-full px-3 py-2 rounded-full text-white bg-gray-800 placeholder:text-gray-500 focus:outline-none"
           />
         </div>
 
@@ -63,7 +71,7 @@ const Navbar = () => {
           {/* dropdown */}
           {
             showDropdown && (
-              <div className="absolute right-10 top-24 bg-stone-900 text-shadow-white rounded shadow-lg w-48 p-4 flex flex-col gap-3 z-20">
+              <div className="absolute right-10 top-full bg-stone-900 text-shadow-white rounded shadow-lg w-48 p-4 flex flex-col gap-3 z-50">
                 <p
                   onClick={() => {
                     navigate('/my-profile');
@@ -121,14 +129,7 @@ const Navbar = () => {
 
       {/* MOBILE MENU */}
       {menuOpen && (
-        <div className="md:hidden bg-gray-700 pt-1.5 px-6 pb-4 space-y-4">
-
-          {/* SEARCH */}
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full px-4 py-2 rounded-full text-white bg-gray-800 placeholder:text-gray-500"
-          />
+        <div className="md:hidden bg-gray-700 pt-1.5 px-6 pb-4 space-y-4 fixed left-0 w-full z-40 top-24">
 
           {/* LINKS */}
           <div className="flex flex-col gap-4 mt-1.5 cursor-pointer">
@@ -156,7 +157,7 @@ const Navbar = () => {
             {/* dropdown */}
             {
               showDropdown && (
-                <div className="absolute right-2 bottom-10 bg-stone-900 text-shadow-white rounded shadow-lg w-48 p-4 flex flex-col gap-3 z-20">
+                <div className="absolute right-2 top-full bg-stone-900 text-shadow-white rounded shadow-lg w-48 p-4 flex flex-col gap-3 z-50">
                   <p
                     onClick={() => {
                       navigate('/my-profile');

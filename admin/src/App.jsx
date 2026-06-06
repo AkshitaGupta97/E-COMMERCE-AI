@@ -14,9 +14,22 @@ const App = () => {
   const { token } = useContext(AdminContext);
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
+      <ToastContainer
+        position="top-right"
+        autoClose={2800}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName="custom-toast"
+        bodyClassName="custom-toast-body"
+        progressClassName="custom-toast-progress"
+      />
       {token ? (
         <>
-          <ToastContainer />
 
           <Navbar />
 

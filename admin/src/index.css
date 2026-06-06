@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+.custom-toast {
+  background: #0b1a4e !important;
+  border-left: 4px solid #facc15 !important;
+  color: #f8fafc !important;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.6) !important;
+}
+
+.custom-toast-body {
+  color: #f8fafc !important;
+  font-weight: 600;
+}
+
+.custom-toast-progress {
+  background: #facc15 !important;
+}
+
 
 
 

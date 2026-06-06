@@ -59,7 +59,7 @@ const Login = () => {
     }, [token]);
 
     return (
-        <div className="h-screen mt-32 min-h-screen w-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4 overflow-hidden">
+        <div className="h-screen mt-10 min-h-screen w-full bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-4 overflow-hidden">
             <form onSubmit={onSubmitHandler} className="w-full max-w-sm sm:max-w-md mx-auto p-5 sm:p-7 md:p-8 bg-slate-900/95 border border-slate-700 shadow-2xl shadow-black/30 rounded-3xl backdrop-blur-sm text-white max-h-[calc(100vh-4rem)] overflow-y-auto">
                 <h2 className="text-2xl sm:text-3xl font-semibold mb-5 text-center tracking-tight text-white">{state}</h2>
                 {state === 'Sign Up' && (

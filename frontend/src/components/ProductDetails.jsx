@@ -25,7 +25,7 @@ const ProductDetails = () => {
     const isWishlisted = Boolean(wishlistData[productId]);
 
     return (
-        <div className="min-h-[calc(100vh-80px)] mt-28 px-4 pb-16">
+        <div className="min-h-[calc(100vh-80px)] mt-36 px-4 pb-16">
             <h1 className="text-2xl font-bold text-center mt-10 text-yellow-300">Product Details</h1>
 
             <div className="bg-gray-900 flex flex-col md:flex-row gap-4 p-6 rounded-3xl shadow-lg hover:shadow-yellow-400/20 transition max-w-5xl mx-auto mt-8">

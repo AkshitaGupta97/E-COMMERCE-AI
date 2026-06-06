@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { createContext } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 //import { productData } from "../assets/productdata";
 
 export const AppContext = createContext({
@@ -88,9 +89,11 @@ const AppContextProvider = (props) => {
                     }
                 );
             }
+            toast.success("Added to cart!");
 
         } catch (error) {
             console.error("Add to cart failed:", error);
+            toast.error("Unable to add item to cart.");
         }
     };
 
@@ -119,9 +122,11 @@ const AppContextProvider = (props) => {
                     }
                 );
             }
+            toast.info("Removed from cart.");
 
         } catch (error) {
             console.error("Remove from cart failed:", error);
+            toast.error("Unable to remove item from cart.");
         }
     };
 
