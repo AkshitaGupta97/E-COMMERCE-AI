@@ -1,9 +1,10 @@
 import { useContext, useEffect } from "react"
 import { AppContext } from "../context/AppContext"
 // import { productData } from "../assets/productdata";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const WishList = () => {
+  const navigate = useNavigate();
   const { wishlistData, backendUrl, getWishlistData, productData, token } = useContext(AppContext);
   const itemIds = Object.keys(wishlistData || {});
 
@@ -14,7 +15,7 @@ const WishList = () => {
   }, [token, getWishlistData]);
 
   return (
-    <div className="min-h-[calc(100vh-80px)] mt-28 px-4">
+    <div className="min-h-[calc(100vh-80px)] mt-40 px-4">
       <h1 className="text-3xl font-bold text-center mt-10 text-yellow-300">My Wishlist</h1>
       <div className="max-w-6xl mx-auto mt-10">
         {itemIds.length === 0 ? (
@@ -32,7 +33,8 @@ const WishList = () => {
                 <Link
                   key={itemId}
                   to={`/product/${itemId}`}
-                  className="glass p-4 rounded-lg transition hover:shadow-yellow-400/20"
+                  onClick={() => navigate(`/product/${itemId}`)}
+                  className="relative z-10 block w-full cursor-pointer glass p-4 rounded-lg transition hover:shadow-yellow-400/20"
                 >
                   <img
                     className="w-full h-48 object-cover rounded-lg mb-4"

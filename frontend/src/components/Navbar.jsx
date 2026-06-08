@@ -23,11 +23,11 @@ const Navbar = () => {
   return (
     <nav className="bg-black text-white font-semibold fixed top-0 left-0 right-0 w-full z-50 shadow-lg glass backdrop-blur-sm">
       {/* MAIN NAV */}
-      <div className="flex items-center justify-between px-4 md:px-10 py-3 sm:py-4">
+      <div className="flex items-center justify-between px-2 md:px-10 py-1 sm:py-2">
 
         {/* LEFT - LOGO */}
         <Link to="/">
-          <img src={neurocartlogo} alt="logo" className="h-16 md:h-20 w-auto md:w-36" />
+          <img src={neurocartlogo} alt="logo" className="h-12 md:h-16 w-auto md:w-32" />
         </Link>
 
         {/* CENTER - SEARCH */}
@@ -129,7 +129,7 @@ const Navbar = () => {
 
       {/* MOBILE MENU */}
       {menuOpen && (
-        <div className="md:hidden bg-gray-700 pt-1.5 px-6 pb-4 space-y-4 fixed left-0 w-full z-40 top-24">
+        <div className="md:hidden bg-gray-700 pt-1.5 px-6 pb-4 space-y-4 fixed left-0 w-full z-40 top-16">
 
           {/* LINKS */}
           <div className="flex flex-col gap-4 mt-1.5 cursor-pointer">
@@ -204,7 +204,7 @@ const Navbar = () => {
       )}
 
       {/* CATEGORY STRIP */}
-      <div className="hidden md:flex gap-8 cursor-pointer px-10 py-2 bg-gray-900 text-sm overflow-x-auto">
+      <div className="hidden md:flex gap-8 cursor-pointer px-10 py-1 bg-gray-900 text-sm overflow-x-auto">
         <Link to="/deals" className="hover:text-yellow-400 cursor-pointer">Deals</Link>
         <Link to="/fashion" className="hover:text-yellow-400 cursor-pointer">Fashion</Link>
         <Link to="/" className="hover:text-blue-400 text-blue-300 cursor-pointer">Home</Link>
