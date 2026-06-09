@@ -16,6 +16,7 @@ import UserDetails from "./components/UserDetails";
 import Beauty from "./components/Beauty";
 import Grocery from "./components/Grocery";
 import PlaceOrder from "./components/PlaceOrder";
+import ChatBox from "./components/ChatBox";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -121,6 +122,7 @@ function App() {
           <Route path="*" element={<Navigate to={token ? "/" : "/login"} replace />} />
         </Routes>
       </div>
+      <ChatBox />
       <Footer />
     </>
   );
