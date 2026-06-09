@@ -1,9 +1,14 @@
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
 
 const ChatBox = () => {
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, text: "Hi! How can I help you today?", sender: "bot", timestamp: new Date() }
@@ -29,16 +34,52 @@ const ChatBox = () => {
     setIsLoading(true);
 
     // Simulate bot response
-    setTimeout(() => {
+    /* setTimeout(() => {
+       const botMessage = {
+         id: Date.now() + 1,
+         text: "Thank you for your message! Our team will get back to you soon.",
+         sender: "bot",
+         timestamp: new Date()
+       };
+       setMessages(prev => [...prev, botMessage]);
+       setIsLoading(false);
+     }, 1000);
+     */
+
+    try {
+      const response = await axios.post(`${backendUrl}/api/ai/chat-ai`, { message: inputValue }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response.data.success) {
+        const botMessage = {
+          id: Date.now() + 1,
+          text: response.data.response.content,
+          sender: "bot",
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, botMessage]);
+      }
+      else {
+        const botMessage = {
+          id: Date.now() + 1,
+          text: "Sorry, something went wrong. Please try again later.",
+          sender: "bot",
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, botMessage]);
+      }
+    } catch (error) {
       const botMessage = {
         id: Date.now() + 1,
-        text: "Thank you for your message! Our team will get back to you soon.",
+        text: "Sorry, something went wrong. Please try again later.",
         sender: "bot",
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMessage]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
 
   };
 
@@ -49,11 +90,10 @@ const ChatBox = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className={`p-4 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
-          isOpen 
-            ? "bg-red-500 hover:bg-red-600" 
-            : "bg-yellow-400 hover:bg-yellow-500 text-black"
-        }`}
+        className={`p-4 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${isOpen
+          ? "bg-red-500 hover:bg-red-600"
+          : "bg-yellow-400 hover:bg-yellow-500 text-black"
+          }`}
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
@@ -107,11 +147,10 @@ const ChatBox = () => {
                   className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-xs px-4 py-2 rounded-lg text-sm ${
-                      msg.sender === "user"
-                        ? "bg-yellow-400 text-black rounded-br-none"
-                        : "bg-gray-700 text-white rounded-bl-none"
-                    }`}
+                    className={`max-w-xs px-4 py-2 rounded-lg text-sm ${msg.sender === "user"
+                      ? "bg-yellow-400 text-black rounded-br-none"
+                      : "bg-gray-700 text-white rounded-bl-none"
+                      }`}
                   >
                     {msg.text}
                   </div>
