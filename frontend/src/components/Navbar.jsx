@@ -12,6 +12,7 @@ const Navbar = () => {
 
   const { token, setToken, userData, getTotalCartItems, getWishlistData, getTotalWishlistItems } = useContext(AppContext);
   const [showDropdown, setShowDropDown] = useState(false);
+  const wishlistCount = getTotalWishlistItems();
 
   const logout = () => {
     setToken(false);
@@ -100,10 +101,13 @@ const Navbar = () => {
           }
 
           <Link to='/wishlist' className="relative cursor-pointer">
-            <Heart onClick={() => getWishlistData(token)} className="cursor-pointer hover:text-yellow-400" />
-            {getTotalWishlistItems() > 0 && (
+            <Heart
+              onClick={() => getWishlistData()}
+              className={`cursor-pointer hover:text-yellow-400 ${wishlistCount > 0 ? "text-red-500 fill-red-500" : ""}`}
+            />
+            {wishlistCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
-                {getTotalWishlistItems()}
+                {wishlistCount}
               </span>
             )}
           </Link>
@@ -186,10 +190,10 @@ const Navbar = () => {
             }
 
             <Link to='/wishlist' onClick={() => setMenuOpen(false)} className="relative cursor-pointer">
-              <Heart className="hover:text-amber-300" />
-              {getTotalWishlistItems() > 0 && (
+              <Heart className={`hover:text-amber-300 ${wishlistCount > 0 ? "text-red-500 fill-red-500" : ""}`} />
+              {wishlistCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
-                  {getTotalWishlistItems()}
+                  {wishlistCount}
                 </span>
               )}
             </Link>

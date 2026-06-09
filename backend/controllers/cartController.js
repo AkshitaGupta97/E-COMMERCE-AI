@@ -64,18 +64,43 @@ export const addToWishList = async(req, res) => {
     try {
         const userId = req.userId;
         const itemId = req.body.itemId;
+
+        if (!itemId) {
+            return res.json({ success: false, message: "Item id is required" });
+        }
+        
         let userData = await userModel.findById(userId);
-        let wishList = await userData.wishList || {};
+        if (!userData) {
+            return res.json({ success: false, message: "User not found" });
+        }
+        
+        const wishList = { ...(userData.wishList || {}) };
+        let isWishlisted = false;
 
-        // Add item to wishlist
-        wishList[itemId] = true;
+        if (wishList[itemId]) {
+            delete wishList[itemId];
+        } else {
+            wishList[itemId] = true;
+            isWishlisted = true;
+        }
 
-        await userModel.findByIdAndUpdate(userId, { wishList });
-        res.json({ success: true, message: "Added to Wishlist" });
+        const updatedUser = await userModel.findByIdAndUpdate(
+            userId,
+            { $set: { wishList } },
+            { new: true }
+        );
+        const finalWishList = updatedUser?.wishList || {};
+        
+        res.json({
+            success: true,
+            message: isWishlisted ? "Added to wishlist" : "Removed from wishlist",
+            wishList: finalWishList,
+            isWishlisted
+        });
 
     } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "Error" });
+        console.log("Wishlist error:", error);
+        res.json({ success: false, message: "Error updating wishlist" });
     }
 }
 
@@ -84,7 +109,10 @@ export const getWishList = async(req, res) => {
     try {
         let userId = req.userId;
         let userData = await userModel.findById(userId);
-        let wishList = await userData.wishList;
+        if (!userData) {
+            return res.json({ success: false, message: "User not found" });
+        }
+        let wishList = userData.wishList || {};
         res.json({success:true, wishList});
     } catch (error) {
         console.log(error);

@@ -2,17 +2,24 @@ import { useContext, useEffect } from "react"
 import { AppContext } from "../context/AppContext"
 // import { productData } from "../assets/productdata";
 import { Link, useNavigate } from "react-router-dom";
+import { Heart } from "lucide-react";
 
 const WishList = () => {
   const navigate = useNavigate();
-  const { wishlistData, backendUrl, getWishlistData, productData, token } = useContext(AppContext);
+  const { wishlistData, backendUrl, getWishlistData, productData, token, addToWishlist } = useContext(AppContext);
   const itemIds = Object.keys(wishlistData || {});
 
   useEffect(() => {
     if (token) {
-      getWishlistData(token);
+      getWishlistData();
     }
   }, [token, getWishlistData]);
+
+  const handleRemove = async (e, itemId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await addToWishlist(itemId);
+  };
 
   return (
     <div className="min-h-[calc(100vh-80px)] mt-40 px-4">
@@ -36,11 +43,19 @@ const WishList = () => {
                   onClick={() => navigate(`/product/${itemId}`)}
                   className="relative z-10 block w-full cursor-pointer glass p-4 rounded-lg transition hover:shadow-yellow-400/20"
                 >
-                  <img
-                    className="w-full h-48 object-cover rounded-lg mb-4"
-                    src={`${backendUrl}/uploads/${itemInfo.image}`}
-                    alt={itemInfo.name}
-                  />
+                  <div className="relative">
+                    <img
+                      className="w-full h-48 object-cover rounded-lg mb-4"
+                      src={`${backendUrl}/uploads/${itemInfo.image}`}
+                      alt={itemInfo.name}
+                    />
+                    <button
+                      onClick={(e) => handleRemove(e, itemId)}
+                      className="absolute top-2 right-2 rounded-full p-2 bg-white/10 text-red-500 hover:bg-red-600 hover:text-white transition"
+                    >
+                      <Heart size={20} className="fill-red-500" />
+                    </button>
+                  </div>
                   <h3 className="font-semibold text-lg text-white">{itemInfo.name}</h3>
                   <p className="text-yellow-400 font-bold text-sm">${itemInfo.price}</p>
                   <p className="text-gray-400 text-sm mt-3">

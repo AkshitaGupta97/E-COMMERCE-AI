@@ -153,31 +153,61 @@ const AppContextProvider = (props) => {
     // ================= WISHLIST =================
 
     const addToWishlist = async (itemId) => {
+        if (!itemId) {
+            toast.error("Unable to update wishlist.");
+            return;
+        }
+
+        let previousWishlistData = {};
+        let optimisticWishlistData = {};
+        let isAdding = true;
+
+        setWishlistData((prev) => {
+            previousWishlistData = { ...(prev || {}) };
+            const updated = { ...(prev || {}) };
+            isAdding = !Boolean(updated[itemId]);
+
+            if (isAdding) {
+                updated[itemId] = true;
+            } else {
+                delete updated[itemId];
+            }
+
+            optimisticWishlistData = updated;
+            return updated;
+        });
+
         try {
-            setWishlistData((prev) => {
-                const updated = { ...prev };
-
-                if (updated[itemId]) {
-                    delete updated[itemId];
-                } else {
-                    updated[itemId] = true;
-                }
-
-                return updated;
-            });
-
             if (token) {
-                await axios.post(
+                const response = await axios.post(
                     backendUrl + "/api/cart/add-to-wishlist",
                     { itemId },
                     {
                         headers: { Authorization: `Bearer ${token}` }
                     }
                 );
-            }
 
+                if (response.data.success) {
+                    const updatedWishList = response.data.wishList || optimisticWishlistData;
+                    const isWishlisted = response.data.isWishlisted ?? Boolean(updatedWishList[itemId]);
+                    setWishlistData(updatedWishList);
+
+                    if (isWishlisted) {
+                        toast.success("Added to wishlist!");
+                    } else {
+                        toast.success("Removed from wishlist!");
+                    }
+                } else {
+                    setWishlistData(previousWishlistData);
+                    toast.error(response.data.message || "Wishlist update failed");
+                }
+            } else {
+                toast.success(isAdding ? "Added to wishlist!" : "Removed from wishlist!");
+            }
         } catch (error) {
+            setWishlistData(previousWishlistData);
             console.error("Wishlist update failed:", error);
+            toast.error(error?.response?.data?.message || "Unable to update wishlist.");
         }
     };
 
@@ -193,12 +223,13 @@ const AppContextProvider = (props) => {
                 }
             );
 
-            const wishList = response.data.wishList || {};
-            setWishlistData(wishList);
+            if (response.data.success) {
+                const wishList = response.data.wishList || {};
+                setWishlistData(wishList);
+            }
 
         } catch (error) {
             console.error("Wishlist load failed:", error);
-            setWishlistData({});
         }
     }, [backendUrl, token]);
 
@@ -223,7 +254,7 @@ const AppContextProvider = (props) => {
     };
 
     const getTotalWishlistItems = () => {
-        return Object.keys(wishlistData).length;
+        return Object.keys(wishlistData || {}).length;
     };
 
     // ================= EFFECTS =================
@@ -255,7 +286,7 @@ const AppContextProvider = (props) => {
             loadCartData();
             getWishlistData();
         }
-    }, [token, getWishlistData]);
+    }, [token]);
 
     // ================= CONTEXT VALUE =================
 
