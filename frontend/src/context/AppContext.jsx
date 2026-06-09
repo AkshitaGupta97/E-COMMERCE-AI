@@ -7,17 +7,23 @@ import { toast } from "react-toastify";
 export const AppContext = createContext({
     productData: [],
     cartData: {},
+    backendUrl: "http://localhost:4000",
 });
 
 const AppContextProvider = (props) => {
 
-    const envUrl = import.meta.env.VITE_BACKEND_URL;
+    const resolveBackendUrl = () => {
+        const envUrl = import.meta.env.VITE_BACKEND_URL;
 
-    const backendUrl = envUrl
-        ? envUrl.startsWith("http")
-            ? envUrl
-            : `http://${envUrl}`
-        : "http://localhost:4000";
+        if (!envUrl || envUrl === "undefined" || envUrl === "null") {
+            return "http://localhost:4000";
+        }
+
+        const url = envUrl.startsWith("http") ? envUrl : `http://${envUrl}`;
+        return url.replace(/\/$/, "");
+    };
+
+    const backendUrl = resolveBackendUrl();
 
     const [token, setToken] = useState(
         localStorage.getItem("token") || false
@@ -28,9 +34,37 @@ const AppContextProvider = (props) => {
     const [wishlistData, setWishlistData] = useState({});
     const [productData, setProductData] = useState([]);
 
+    const normalizeWishlistData = (wishList = {}) => {
+        return Object.entries(wishList || {}).reduce((acc, [itemId, value]) => {
+            if (value) {
+                acc[itemId.toString()] = true;
+            }
+
+            return acc;
+        }, {});
+    };
+
+    const getValidWishlistData = useCallback((wishList = wishlistData) => {
+        if (productData.length === 0) {
+            return {};
+        }
+
+        const validProductIds = new Set(
+            productData.map((item) => item?._id?.toString()).filter(Boolean)
+        );
+
+        return Object.entries(wishList || {}).reduce((acc, [itemId, value]) => {
+            if (value && validProductIds.has(itemId.toString())) {
+                acc[itemId.toString()] = true;
+            }
+
+            return acc;
+        }, {});
+    }, [productData, wishlistData]);
+
     // ================= PRODUCTS =================
 
-    const fetchProductList = async () => {
+    const fetchProductList = useCallback(async () => {
         try {
             const response = await axios.get(backendUrl + "/api/product/list-products");
 
@@ -44,7 +78,7 @@ const AppContextProvider = (props) => {
             console.error("Failed to fetch products:", error);
             setProductData([]);
         }
-    }
+    }, [backendUrl]);
 
     // ================= USER =================
 
@@ -165,7 +199,7 @@ const AppContextProvider = (props) => {
         setWishlistData((prev) => {
             previousWishlistData = { ...(prev || {}) };
             const updated = { ...(prev || {}) };
-            isAdding = !Boolean(updated[itemId]);
+            isAdding = !updated[itemId];
 
             if (isAdding) {
                 updated[itemId] = true;
@@ -188,7 +222,7 @@ const AppContextProvider = (props) => {
                 );
 
                 if (response.data.success) {
-                    const updatedWishList = response.data.wishList || optimisticWishlistData;
+                    const updatedWishList = normalizeWishlistData(response.data.wishList || optimisticWishlistData);
                     const isWishlisted = response.data.isWishlisted ?? Boolean(updatedWishList[itemId]);
                     setWishlistData(updatedWishList);
 
@@ -224,7 +258,7 @@ const AppContextProvider = (props) => {
             );
 
             if (response.data.success) {
-                const wishList = response.data.wishList || {};
+                const wishList = normalizeWishlistData(response.data.wishList || {});
                 setWishlistData(wishList);
             }
 
@@ -254,7 +288,7 @@ const AppContextProvider = (props) => {
     };
 
     const getTotalWishlistItems = () => {
-        return Object.keys(wishlistData || {}).length;
+        return Object.keys(getValidWishlistData()).length;
     };
 
     // ================= EFFECTS =================
@@ -303,6 +337,7 @@ const AppContextProvider = (props) => {
 
         wishlistData,
         addToWishlist, getWishlistData,
+        getValidWishlistData,
         getTotalWishlistItems
     };
 

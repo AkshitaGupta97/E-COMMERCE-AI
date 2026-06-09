@@ -5,7 +5,7 @@ import { AppContext } from "../context/AppContext";
 
 const ProductDetails = () => {
     
-    const { cartData, backendUrl, addToWishlist, productData, addToCart, removeFromCart, wishlistData } = useContext(AppContext);
+    const { cartData, backendUrl, addToWishlist, productData, addToCart, removeFromCart, getValidWishlistData } = useContext(AppContext);
     const { id } = useParams();
     const productId = id;
     const product = productData.find((item) => item._id === productId);
@@ -22,7 +22,7 @@ const ProductDetails = () => {
 
     const quantity = cartData[productId] || 0;
     const added = quantity > 0;
-    const isWishlisted = Boolean(wishlistData[productId]);
+    const isWishlisted = Boolean(getValidWishlistData()[productId]);
 
     return (
         <div className="min-h-[calc(100vh-80px)] mt-36 px-4 pb-16">

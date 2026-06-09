@@ -1,19 +1,32 @@
 import { useContext, useEffect } from "react"
 import { AppContext } from "../context/AppContext"
 // import { productData } from "../assets/productdata";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 
 const WishList = () => {
-  const navigate = useNavigate();
-  const { wishlistData, backendUrl, getWishlistData, productData, token, addToWishlist } = useContext(AppContext);
-  const itemIds = Object.keys(wishlistData || {});
+  const { wishlistData, backendUrl, getWishlistData, getValidWishlistData, productData, fetchProductList, token, addToWishlist } = useContext(AppContext);
+  const validWishlistData = getValidWishlistData();
+  const itemIds = Object.keys(validWishlistData);
+  
+  const wishlistItems = itemIds
+    .map((itemId) => ({
+      itemId,
+      itemInfo: productData.find((item) => item?._id?.toString() === itemId),
+    }))
+    .filter(({ itemInfo }) => itemInfo);
+  const hasSavedWishlistData = Object.keys(wishlistData || {}).length > 0;
+  const isWaitingForProducts = hasSavedWishlistData && productData.length === 0;
 
   useEffect(() => {
     if (token) {
       getWishlistData();
     }
-  }, [token, getWishlistData]);
+
+    if (productData.length === 0) {
+      fetchProductList();
+    }
+  }, [token, getWishlistData, fetchProductList, productData.length]);
 
   const handleRemove = async (e, itemId) => {
     e.preventDefault();
@@ -22,25 +35,30 @@ const WishList = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-80px)] mt-40 px-4">
+    <div className="min-h-[calc(100vh-80px)] mt-32 px-4">
       <h1 className="text-3xl font-bold text-center mt-10 text-yellow-300">My Wishlist</h1>
       <div className="max-w-6xl mx-auto mt-10">
-        {itemIds.length === 0 ? (
+        {isWaitingForProducts ? (
+          <div className="glass p-8 text-center">
+            <p className="text-xl text-yellow-400">Loading wishlist...</p>
+          </div>
+        ) : itemIds.length === 0 ? (
           <div className="glass p-8 text-center">
             <p className="text-xl text-yellow-400">Your wishlist is empty</p>
             <p className="text-gray-500 mt-2">Add some products to get started!</p>
           </div>
+        ) : wishlistItems.length === 0 ? (
+          <div className="glass p-8 text-center">
+            <p className="text-xl text-yellow-400">Wishlist products are not available right now</p>
+            <p className="text-gray-500 mt-2">Please refresh once products finish loading.</p>
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {itemIds.map((itemId) => {
-              const itemInfo = productData.find((item) => item._id === itemId);
-              if (!itemInfo) return null;
-
+            {wishlistItems.map(({ itemId, itemInfo }) => {
               return (
                 <Link
                   key={itemId}
                   to={`/product/${itemId}`}
-                  onClick={() => navigate(`/product/${itemId}`)}
                   className="relative z-10 block w-full cursor-pointer glass p-4 rounded-lg transition hover:shadow-yellow-400/20"
                 >
                   <div className="relative">
@@ -72,4 +90,3 @@ const WishList = () => {
 }
 
 export default WishList
-

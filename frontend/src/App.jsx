@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 //import Shop from "./pages/Shop";
 import Deals from "./components/Deals";
@@ -20,6 +20,16 @@ import PlaceOrder from "./components/PlaceOrder";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   const { token } = useContext(AppContext);
@@ -48,6 +58,7 @@ function App() {
         <RequireAuth>
           <Navbar />
         </RequireAuth>
+        <ScrollToTop />
         {/* MAIN CONTENT */}
         <Routes>
           <Route path="/login" element={<Login />} />

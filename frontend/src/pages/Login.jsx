@@ -13,13 +13,14 @@ const Login = () => {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const { setToken, backendUrl, token } = useContext(AppContext);
+    const apiBaseUrl = backendUrl || "http://localhost:4000";
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
         try {
             if (state === 'Sign Up') {
                 const { data } = await axios.post(
-                    `${backendUrl}/api/user/register`,
+                    `${apiBaseUrl}/api/user/register`,
                     { name, email, password, address }
                 );
                 if (data.success) {
@@ -33,7 +34,7 @@ const Login = () => {
             }
             else {
                 const { data } = await axios.post(
-                    `${backendUrl}/api/user/login`,
+                    `${apiBaseUrl}/api/user/login`,
                     { email, password }
                 );
                 if (data.success) {

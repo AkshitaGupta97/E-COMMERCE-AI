@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 
 export default function ProductCard({ product }) {
 
-    const { cartData, setCartData, backendUrl,  addToWishlist, addToCart, removeFromCart, wishlistData } = useContext(AppContext);
+    const { cartData, backendUrl, addToWishlist, addToCart, removeFromCart, getValidWishlistData } = useContext(AppContext);
     
     //const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
     const imageUrl = `${backendUrl}/uploads/${product.image}`;
 
     const added = Boolean(cartData[product._id]);
+    const isWishlisted = Boolean(getValidWishlistData()[product._id]);
 
     const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ export default function ProductCard({ product }) {
                     >
                         <Heart
                             size={18}
-                            className={`${wishlistData[product._id] ? 'text-red-500 fill-red-500' : ''}`}
+                            className={`${isWishlisted ? 'text-red-500 fill-red-500' : ''}`}
                         />
                     </button>
                 </div>

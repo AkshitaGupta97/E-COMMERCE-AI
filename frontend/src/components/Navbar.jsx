@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const { token, setToken, userData, getTotalCartItems, getWishlistData, getTotalWishlistItems } = useContext(AppContext);
+  const { setToken, userData, getTotalCartItems, getWishlistData, getTotalWishlistItems } = useContext(AppContext);
   const [showDropdown, setShowDropDown] = useState(false);
   const wishlistCount = getTotalWishlistItems();
 
@@ -100,10 +100,14 @@ const Navbar = () => {
             )
           }
 
-          <Link to='/wishlist' className="relative cursor-pointer">
+          <Link
+            to='/wishlist'
+            onClick={() => getWishlistData()}
+            className="relative inline-flex cursor-pointer text-white"
+            aria-label="Open wishlist"
+          >
             <Heart
-              onClick={() => getWishlistData()}
-              className={`cursor-pointer hover:text-yellow-400 ${wishlistCount > 0 ? "text-red-500 fill-red-500" : ""}`}
+              className={`cursor-pointer hover:text-yellow-400 ${wishlistCount > 0 ? "text-red-500 fill-red-500" : "text-white"}`}
             />
             {wishlistCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
@@ -189,8 +193,16 @@ const Navbar = () => {
               )
             }
 
-            <Link to='/wishlist' onClick={() => setMenuOpen(false)} className="relative cursor-pointer">
-              <Heart className={`hover:text-amber-300 ${wishlistCount > 0 ? "text-red-500 fill-red-500" : ""}`} />
+            <Link
+              to='/wishlist'
+              onClick={() => {
+                getWishlistData();
+                setMenuOpen(false);
+              }}
+              className="relative inline-flex cursor-pointer text-white"
+              aria-label="Open wishlist"
+            >
+              <Heart className={`hover:text-amber-300 ${wishlistCount > 0 ? "text-red-500 fill-red-500" : "text-white"}`} />
               {wishlistCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
                   {wishlistCount}
