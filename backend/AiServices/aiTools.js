@@ -1,5 +1,5 @@
-import { productModel } from "../models/productModels"
-import userModel from "../models/userModels";
+import { productModel } from "../models/productModels.js";
+import userModel from "../models/userModels.js";
 
 // search products using ai
 

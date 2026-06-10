@@ -1,6 +1,7 @@
 
 import OpenAI from "openai";
 import { tools } from "./aiAgent.js";
+import { aiAddProduct, aiAddToWishList, aiGetProductDetails, aiRemoveProduct, aiSearchProducts } from "./aiTools.js";
 
 const openai = new OpenAI({
     apiKey: process.env.GROQ_API_KEY,
@@ -10,12 +11,12 @@ const openai = new OpenAI({
 export const chatWithAi = async (req, res) => {
     try {
 
-        console.log("Message received:", req.body);
+        //   console.log("Message received:", req.body);
 
         const { message } = req.body;
 
         const completion = await openai.chat.completions.create({
-           model: "llama-3.1-8b-instant",
+            model: "llama-3.1-8b-instant",
 
             messages: [
                 {
@@ -40,11 +41,64 @@ export const chatWithAi = async (req, res) => {
             tools: tools
         });
 
-        res.json({ success: true, response: completion.choices[0].message });
+        const assistantMessage = completion.choices[0].message;
 
         console.log(
-            JSON.stringify(completion.choices[0].message, null, 2)
+            JSON.stringify(assistantMessage, null, 2)
         );
+
+        if (assistantMessage.tool_calls?.length > 0) {
+            // execute the tool calls and get the results
+
+            console.log("TOOL EXECUTION STARTED");
+
+            const toolCall = assistantMessage.tool_calls[0];
+            const functionName = toolCall.function.name;
+            const args = JSON.parse(toolCall.function.arguments);
+
+            let result;
+
+            console.log("User ID:", req.userId);
+            console.log("Function Name:", functionName);
+            switch (functionName) {
+                case "aiGetProductDetails":
+                    result = await aiGetProductDetails(
+                        args.productName
+                    );
+                    break;
+
+                case "aiAddProduct":
+                    result = await aiAddProduct(
+                        req.userId,
+                        args.productName
+                    );
+                    break;
+
+                case "aiRemoveProduct":
+                    result = await aiRemoveProduct(
+                        req.userId,
+                        args.productName
+                    );
+                    break;
+
+                case "aiAddToWishList":
+                    result = await aiAddToWishList(
+                        req.userId,
+                        args.productName
+                    );
+                    break;
+
+                default:
+                    result = "Unknown tool";
+            }
+
+            return res.json({
+                success: true,
+                response: {
+                    content: result
+                }
+            });
+        }
 
     }
     catch (error) {
