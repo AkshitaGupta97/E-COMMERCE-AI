@@ -1,6 +1,6 @@
 
 import OpenAI from "openai";
-import { tools } from "./aiAgent";
+import { tools } from "./aiAgent.js";
 
 const openai = new OpenAI({
     apiKey: process.env.GORQ_API_KEY,
@@ -11,7 +11,7 @@ export const chatWithAi = async (req, res) => {
     try{
         const {message} = req.body;
         
-        const completion = await client.chat.completion.create({
+        const completion = await openai.chat.completions.create({
             model:"gpt-4o-mini",
 
             messages: [
