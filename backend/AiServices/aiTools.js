@@ -34,7 +34,7 @@ export const aiAddProduct = async (userId, productName) => {
         return { success: false, message: "Product not found.." };
     }
 
-    let user = userModel.findById(userId);
+    let user = await userModel.findById(userId);
 
     let cartData = user.cartData || {};
 
@@ -56,7 +56,7 @@ export const aiRemoveProduct = async (userId, productName) => {
         return { success: false, message: "Product not found.." };
     }
 
-    let user = userModel.findById(userId);
+    let user = await userModel.findById(userId);
     let cartData = user.cartData || {};
 
     if(cartData[product._id]){
@@ -78,7 +78,7 @@ export const aiAddToWishList = async (userId, productName) => {
         return { success: false, message: "Product not found.." };
     }
 
-    let user = userModel.findById(userId);
+    let user = await userModel.findById(userId);
     let wishList = user.wishList || [];
 
     if(!wishList.includes(product._id)){

@@ -9,6 +9,8 @@ const ChatBox = () => {
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
+  const {token} = useContext(AppContext);
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, text: "Hi! How can I help you today?", sender: "bot", timestamp: new Date() }
@@ -50,7 +52,7 @@ const ChatBox = () => {
       const response = await axios.post(`${backendUrl}/api/ai/chat-ai`, { message: inputValue }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-
+      console.log("Ai response = ", response.data);
       if (response.data.success) {
         const botMessage = {
           id: Date.now() + 1,

@@ -1,54 +1,62 @@
 
-import OpenAi from 'openai';
+import OpenAI from 'openai';
 
-const openai = new OpenAi({
-    apiKey: process.env.GORQ_API_KEY,
-    baseURL: 'https://api.gorq.com/v1',
+const openai = new OpenAI({
+    apiKey: process.env.GROQ_API_KEY,
+    baseURL: "https://api.groq.com/openai/v1",
 });
 
 // Defining the tools
 
-export const tools = {
+export const tools = [
+  {
     type: "function",
-    functions: {
-        name: "aiGetProductDetails",
-        description: "Get details of a product by its name",
-        parameters: {
-            type: "object",
-            properties: {
-                productName: {
-                    type: "string",
-                    description: "Name of the product to get details for"
-                }
-            },  
-            required: ["productName"]
+    function: {
+      name: "aiGetProductDetails",
+      description: "Get product details",
+      parameters: {
+        type: "object",
+        properties: {
+          productName: {
+            type: "string"
+          }
         },
-
-        name: "aiAddProduct",
-        description: "Add a product to the cart by its name",
-        parameters: {
-            type: "object",
-            properties: {
-                productName: {
-                    type: "string",
-                    description: "Name of the product to add to cart"
-                }
-            },  
-            required: ["productName"]
-        },
-
-        name: "aiRemoveProduct",
-        description: "Remove a product from the cart by its name",
-        parameters: {
-            type: "object",
-            properties: {
-                productName: {
-                    type: "string",
-                    description: "Name of the product to remove from cart"
-                }
-            },  
-            required: ["productName"]
-        },
-
+        required: ["productName"]
+      }
     }
-}
+  },
+
+  {
+    type: "function",
+    function: {
+      name: "aiAddProduct",
+      description: "Add product to cart",
+      parameters: {
+        type: "object",
+        properties: {
+          productName: {
+            type: "string"
+          }
+        },
+        required: ["productName"]
+      }
+    }
+  },
+
+  {
+    type: "function",
+    function: {
+      name: "aiRemoveProduct",
+      description: "Remove product from cart",
+      parameters: {
+        type: "object",
+        properties: {
+          productName: {
+            type: "string"
+          }
+        },
+        required: ["productName"]
+      }
+    }
+  }
+];

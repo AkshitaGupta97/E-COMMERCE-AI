@@ -3,22 +3,25 @@ import OpenAI from "openai";
 import { tools } from "./aiAgent.js";
 
 const openai = new OpenAI({
-    apiKey: process.env.GORQ_API_KEY,
-    baseURL: 'https://api.gorq.com/v1',
+    apiKey: process.env.GROQ_API_KEY,
+    baseURL: "https://api.groq.com/openai/v1",
 });
 
 export const chatWithAi = async (req, res) => {
-    try{
-        const {message} = req.body;
-        
+    try {
+
+        console.log("Message received:", req.body);
+
+        const { message } = req.body;
+
         const completion = await openai.chat.completions.create({
-            model:"gpt-4o-mini",
+           model: "llama-3.1-8b-instant",
 
             messages: [
                 {
-                    role:"system", 
+                    role: "system",
                     content:
-                     `
+                        `
                         You are a helpful assistant for an e-commerce website. 
                         You can help users find products, add products to their cart, and remove products from their cart and add product to wishlist also checkout the products.
                         You can also provide details about products. Use the following tools to perform these actions:
@@ -37,10 +40,19 @@ export const chatWithAi = async (req, res) => {
             tools: tools
         });
 
-        res.json({success: true, response: completion.choices[0].message});
+        res.json({ success: true, response: completion.choices[0].message });
+
+        console.log(
+            JSON.stringify(completion.choices[0].message, null, 2)
+        );
 
     }
     catch (error) {
+        console.error(error);
 
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
     }
 }
